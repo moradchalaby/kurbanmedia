@@ -1,0 +1,19 @@
+* resources klasrü altına app klasörü oluşturup ( backend veya ftontend) layout.blade.php dosyası oluşturup header ve footer ı yapıştırıyoruz
+göbek kısmına @yield('content') yazıyoruz
+** sonra bunun altına default klasörü oluşturup index.blade.php dosyası oluşturup sayfa göbeğini koyuyoruz bu göbeği ;
+ @extends('layout')
+
+
+ @section('content')
+
+ <div>...</div>
+
+  @endsection
+ @section('css')@endsection
+ @section('js')@endsection
+
+şeklinde hazırlıyoruz
+
+template css ve js dosyalarını publik içine atıyoruz ve header de public içine ulaşmak için / işareti kullanıyoruz
+
+** sonra php artisan make:controller Kurban/DefaultController şeklinde controller oluşturuyoruz bunun içinde fonksiyonlar yazılacak

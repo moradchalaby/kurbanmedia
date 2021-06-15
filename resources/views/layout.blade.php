@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
     <meta charset="utf-8">
@@ -27,6 +27,13 @@
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+    <!-- Icon package -->
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -218,6 +225,94 @@
     <!-- jQuery UI 1.11.4 -->
     <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <!-- DataTables  & Plugins -->
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../../plugins/jszip/jszip.min.js"></script>
+    <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script>
+        /*  $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        }); */
+        String.prototype.turkishToLower = function() {
+            var string = this;
+            var letters = {
+                "İ": "i",
+                "I": "ı",
+                "Ş": "ş",
+                "Ğ": "ğ",
+                "Ü": "ü",
+                "Ö": "ö",
+                "Ç": "ç"
+            };
+            string = string.replace(/(([İIŞĞÜÇÖ]))/g, function(letter) {
+                return letters[letter];
+            })
+            return string.toLowerCase();
+        }
+
+        String.prototype.turkishToUpper = function() {
+            var string = this;
+            var letters = {
+                "i": "İ",
+                "ş": "Ş",
+                "ğ": "Ğ",
+                "ü": "Ü",
+                "ö": "Ö",
+                "ç": "Ç",
+                "ı": "I"
+            };
+            string = string.replace(/(([iışğüçö]))/g, function(letter) {
+                return letters[letter];
+            })
+            return string.toUpperCase();
+        }
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#example1 tfoot th').each(function() {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#example1').DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                initComplete: function() {
+                    // Apply the search
+                    this.api().columns().every(function() {
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change clear', function() {
+                            if (that.search() !== this.value.turkishToUpper()) {
+                                that
+                                    .search(this.value.turkishToUpper())
+                                    .draw();
+                            }
+                        });
+                    });
+                }
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        });
+
+    </script>
     <script>
         $.widget.bridge('uibutton', $.ui.button)
 

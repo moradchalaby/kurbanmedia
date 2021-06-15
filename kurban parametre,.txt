@@ -1,0 +1,27 @@
+büyükbaş =1
+küçükbaş=0
+
+gelecek=0
+vekalet=1
+
+işlemler
+
+Kesilmedi=0
+Kesildi=1
+
+arama -------
+arandı=0
+ulaşılamadı=1
+numara yanlış =2
+referans arandı=3
+iletişim kurulamadı=4
+
+video-----
+
+video gönderilmedi=0
+herhangi bir messanger programı yok=5
+video gönderildi =wp- 10
+tlgrm 11
+bip 12
+
+referansa gönderildi = 2

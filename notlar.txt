@@ -17,3 +17,79 @@ göbek kısmına @yield('content') yazıyoruz
 template css ve js dosyalarını publik içine atıyoruz ve header de public içine ulaşmak için / işareti kullanıyoruz
 
 ** sonra php artisan make:controller Kurban/DefaultController şeklinde controller oluşturuyoruz bunun içinde fonksiyonlar yazılacak
+
+
+modül oluşturma
+
+resources altında modül klasörü ve onun altına index.blade.php dosyası oluşturuyoruz
+
+sonra
+php artisan make:controller Backend\BuyukbasController --resource
+
+şeklinde controller oluşturuyoruz
+
+routes altında web.php de route oluşturuyoruz
+
+
+
+Verb	          URI	                     Action	         Route Name
+GET	             /photos	                index	         photos.index
+GET	             /photos/create	            create	         photos.create
+POST	         /photos	                store	         photos.store
+GET	             /photos/{photo}    	    show	         photos.show
+GET	             /photos/{photo}/edit	    edit	         photos.edit
+PUT/PATCH	     /photos/{photo}     	    update	         photos.update
+DELETE	         /photos/{photo}         	    destroy	         photos.destroy
+ */
+
+Route::namespace('Backend')->group(function () {
+    Route::prefix('nedmin')->group(function () {
+        //BLOG
+        Route::post('/blog/sortable', 'BlogController@sortable')->name('blog.Sortable');
+        Route:: resource('blog', 'BlogController');
+
+
+        //PAGE
+        Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');
+        Route::resource('page', 'PageController');
+    });
+});
+
+app altına Blog.php şeklinde dosya oluşturuyoruz
+
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Blogs extends Model
+{
+    //
+}
+
+
+
+
+php artisan make:migration create_pages_table
+yaptıktan sonra databese/migrations da ki dosyanın içine sütunları ayarlayacağız
+php artisan migrate
+php artisan make:seeder PagesTableSeeder
+
+burada da  verileri oluşturacağımız dosya oluyor burada varsayılan verileri ayarlayacağız
+
+sonra databaseseeder.php ye bu seedere ekle
+
+
+php artisan db:seed --class=PagesTabelSeeder
+
+ile de verileri içeri aktarıyoruz
+php artisan migrate:fresh --seed
+bütün tabloları varsayılan yapıyor
+
+
+
+
+php artisan make:middleware Admin
+
+ara katman oluşturuyoe yani izinsiz giriş engelleyici

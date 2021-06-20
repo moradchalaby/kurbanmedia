@@ -95,7 +95,6 @@
             </div>
             <!-- /.row -->
 
-
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -121,29 +120,16 @@
                                                 <th><span id='search'>CEP TELEFONU</span><br>CEP TELEFONU</th>
                                                 <th><span id='search'>REFERANS</span><br>REFERANS</th>
                                                 <th><span id='search'>GELECEKVEKALET</span><br>GELECEKVEKALET</th>
+
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>Action</th>
                                             </tr>
 
                                         </thead>
 
 
-                                        <tbody>
-                                            @foreach ($data['buyukbas'] as $bbas)
-                                                <tr>
-                                                    <td>{{ $bbas['id'] }}</td>
-                                                    <td>{{ $bbas['hisse_no'] }}</td>
-                                                    <td>{{ $bbas['sira_no'] }}</td>
-                                                    <td>{{ $bbas['kesim_no'] }}</td>
-
-
-
-
-                                                    <td>{{ $bbas['adi_soyadi'] }}</td>
-                                                    <td>{{ $bbas['tel_no'] }}</td>
-                                                    <td>{{ $bbas['referans'] }}</td>
-                                                    <td>@php  echo $bbas['vekalet_durum']==0?'Gelecek':'Vekalet'  @endphp</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
 
                                     </table>
                                 </div>
@@ -163,6 +149,212 @@
         <!--/. container-fluid -->
     </section>
     <!-- /.content -->
+    <div class="modal fade" id="company-modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="CompanyModal"></h4>
+                </div>
+                <div class="modal-body">
+                    <form action="javascript:void(0)" id="CompanyForm" name="CompanyForm" class="form-horizontal"
+                        method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" id="id">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Company Name</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Enter Company Name" maxlength="50" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Company Email</label>
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Enter Company Email" maxlength="50" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Company Address</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="address" name="address"
+                                    placeholder="Enter Company Address" required="">
+                            </div>
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" id="btn-save">Save changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 @section('css')@endsection
-@section('js')@endsection
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            String.prototype.turkishToLower = function() {
+                var string = this;
+                var letters = {
+                    "İ": "i",
+                    "I": "ı",
+                    "Ş": "ş",
+                    "Ğ": "ğ",
+                    "Ü": "ü",
+                    "Ö": "ö",
+                    "Ç": "ç"
+                };
+                string = string.replace(/(([İIŞĞÜÇÖ]))/g, function(letter) {
+                    return letters[letter];
+                });
+                return string.toLowerCase();
+            }
+            String.prototype.turkishToUpper = function() {
+                var string = this;
+                var letters = {
+                    "i": "İ",
+                    "ş": "Ş",
+                    "ğ": "Ğ",
+                    "ü": "Ü",
+                    "ö": "Ö",
+                    "ç": "Ç",
+                    "ı": "I"
+                };
+                string = string.replace(/(([iışğüçö]))/g, function(letter) {
+                    return letters[letter];
+                });
+                return string.toUpperCase();
+            }
+
+            $(document).ready(function() { // Setup - add a text input to each footer cell
+                $('#example1 thead tr #search').each(function() {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class = "w-100" placeholder = "ARA -' + title +
+                        '" / > ');
+                });
+                var tablem = $('#example1').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ url('buyukbas/kesilmis') }}",
+
+                    columns: [{
+                            data: 'id',
+                            name: 'id',
+                            createdCell: function(td, cellData, rowData, row, col) {
+                                return '<input type="text" class="no-input-border" name="name" value="' +
+                                    cellData + '" />'
+                            },
+                        },
+                        {
+                            data: 'sira_no',
+                            name: 'sira_no'
+                        },
+                        {
+                            data: 'kesilme_no',
+                            name: 'kesilme_no'
+                        },
+                        {
+                            data: 'hisse_no',
+                            name: 'hisse_no'
+                        },
+                        {
+                            data: 'adi_soyadi',
+                            name: 'adi_soyadi',
+                            orderDataType: "dom-text"
+                        },
+                        {
+                            data: 'tel_no',
+                            name: 'tel_no'
+                        },
+                        {
+                            data: 'referans',
+                            name: 'referans'
+                        },
+                        {
+                            data: 'vekalet_durum',
+                            name: 'vekalet_durum'
+                        },
+                        {
+                            data: 'arama_islem',
+                            name: 'arama_islem'
+                        },
+                        {
+                            data: 'video_islem',
+                            name: 'video_islem'
+                        },
+                        {
+                            data: 'islem_log',
+                            name: 'islem_log'
+                        },
+
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false
+                        },
+                    ],
+
+                    order: [
+                        [0, 'desc']
+                    ],
+                    "responsive": false,
+                    "lengthChange": true,
+
+
+                    "autoWidth": true,
+                    "pageLength": 10,
+
+
+                    "scrollX": true,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+
+                    initComplete: function() {
+                        // Apply the search
+                        this.api().columns().every(function() {
+                            var that = this;
+
+                            $('input', this.header()).on('keyup change clear',
+                                function() {
+                                    if (that.search() !== this.value
+                                        .turkishToUpper()) {
+                                        that
+                                            .search(this.value.turkishToUpper())
+                                            .draw();
+                                    }
+                                });
+                        });
+                    }
+                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            });
+
+
+            function editFunc(id) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('buyukbas/edit') }}",
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#CompanyModal').html("Edit Company");
+                        $('#company-modal').modal('show');
+                        $('#id').val(res.id);
+                        $('#name').val(res.adi_soyadi);
+                        $('#address').val(res.address);
+                        $('#email').val(res.email);
+                    }
+                });
+            }
+        });
+    </script>@endsection

@@ -6,7 +6,8 @@ use App\Buyukbas;
 use App\Referans;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Datatables;
 
 class BuyukbasController extends Controller
 {
@@ -18,8 +19,15 @@ class BuyukbasController extends Controller
     public function index()
     {
         //
-        $data['buyukbas'] = Buyukbas::all()->sortBy('sira_no');
-        return view('buyukbas.index', compact('data'));
+        $model = Buyukbas::select('*');
+        if (request()->ajax()) {
+            return datatables()->of($model)
+                ->addColumn('action', 'company-action')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('buyukbas.index');
     }
     /**
      * Show the form for creating a new resource.
@@ -29,9 +37,15 @@ class BuyukbasController extends Controller
     public function kesilmis()
     {
         //
-        $data['buyukbas'] =
-            Buyukbas::all()->where('kesilme_durum', 1)->sortBy('kesilme_no');
-        return view('buyukbas.kesilmis', compact('data'));
+        $model = Buyukbas::select('*');
+        if (request()->ajax()) {
+            return datatables()->of($model)
+                ->addColumn('action', 'buyukbas.kesilmis-action')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('buyukbas.kesilmis');
     }
 
     /**
@@ -59,13 +73,7 @@ class BuyukbasController extends Controller
             Buyukbas::all()->where('kesilme_durum', 0)->sortBy('sira_no');
         return view('buyukbas.kesilmemis', compact('data'));
     }
-    public function ajax(Request $request)
-    {
-        dd($request);
-        return view(
-            'buyukbas.ajax'
-        );
-    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -104,9 +112,13 @@ class BuyukbasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
+
+        $company  = Buyukbas::where('id', $_POST['id'])->first();
+
+        return Response()->json($company);
     }
 
     /**
@@ -116,9 +128,21 @@ class BuyukbasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
         //
+        $update =  DB::table('buyukbas')
+            ->where('id', $_POST['id'])
+            ->update([
+                'kesilme_no' => $_POST['kesimno'],
+                'tel_no' => $_POST['tel'],
+                'video_islem' => $_POST['video'],
+                'arama_islem' => $_POST['arama']
+
+            ]);
+        if ($update) {
+            echo true;
+        }
     }
 
     /**

@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Buyukbas extends Model
 {
     //
+    protected $fillable = [];
 }

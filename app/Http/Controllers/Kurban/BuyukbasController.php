@@ -96,6 +96,9 @@ class BuyukbasController extends Controller
                 ->addIndexColumn()
 
 
+
+
+
                 ->make(true);
         }
         return view('buyukbas.kesilmis');

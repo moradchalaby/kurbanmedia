@@ -150,10 +150,23 @@
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">DataTable with default features</h3>
+
+                                    <h3 class="card-title float-left"> DataTable with default features </h3>
+
+                                    <div class="btn-group float-right">
+
+                                        <a class="btn btn-info  " onClick="refreshTable()" href="#" role="button">
+                                            <i class="fas fa-sync"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-info " data-card-widget="maximize"><i
+                                                class="fas fa-expand"></i>
+                                        </a>
+
+                                    </div>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body ">
+
                                     <table id="example1" class="w-100 table table-bordered table-striped">
 
                                         <thead>
@@ -194,55 +207,16 @@
         </div>
         <!--/. container-fluid -->
     </section>
-    <!-- /.content -->
-    <div class="modal fade" id="company-modal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="CompanyModal"></h4>
-                </div>
-                <div class="modal-body">
-                    <form action="javascript:void(0)" id="CompanyForm" name="CompanyForm" class="form-horizontal"
-                        method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id" id="id">
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Company Name</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Enter Company Name" maxlength="50" required="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Company Email</label>
-                            <div class="col-sm-12">
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Enter Company Email" maxlength="50" required="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Company Address</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="address" name="address"
-                                    placeholder="Enter Company Address" required="">
-                            </div>
-                        </div>
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" id="btn-save">Save changes
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 
 @endsection
 @section('css')@endsection
 @section('js')
     <script>
+        function refreshTable() {
+            $('#example1').DataTable().draw();
+        }
         $(document).ready(function() {
 
             $.ajaxSetup({
@@ -286,21 +260,21 @@
             $(document).ready(function() { // Setup - add a text input to each footer cell
 
                 tablem = $('#example1').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    responsive: false,
-                    lengthChange: true,
+                    "processing": true,
+                    "serverSide": true,
+                    "responsive": false,
+                    "lengthChange": true,
 
 
-                    autoWidth: true,
-                    pageLength: 10,
+                    "autoWidth": true,
+                    "pageLength": 7,
 
 
-                    scrollX: true,
-                    buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                    ajax: "{{ url('buyukbas/kesilmis') }}",
+                    "scrollX": true,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                    "ajax": "{{ url('buyukbas/kesilmis') }}",
 
-                    columns: [{
+                    "columns": [{
                             data: 'id',
                             name: 'id',
 
@@ -453,6 +427,7 @@
 
             });
 
+
             function myCallbackFunction(updatedCell, updatedRow, oldValue) {
 
                 var formData = {
@@ -488,6 +463,7 @@
                             ' İşlem başarısız');
                     }
                 });
+                $('#example1').DataTable().draw();
             }
             $('#example1 thead tr #search').each(function() {
                 var title = $(this).text();

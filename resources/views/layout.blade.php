@@ -155,11 +155,7 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" onClick="refreshTable()" href="#" role="button">
-                        <i class="fas fa-sync"></i>
-                    </a>
-                </li>
+
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -223,33 +219,10 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('dist/js/demo.js') }}"></script>
     <script src="{{ asset('dist/js/dataTables.cellEdit.js') }}"></script>
+
     {{-- <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
      <script>
-        function refreshTable() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
 
-            var data = {
-                refresh: true,
-
-            }
-            $.ajax({
-                type: "GET",
-                data: data,
-                url: "{{ route('buyukbas.reload') }}",
-                success: function(msg) {
-                    // console.log(msg);
-                    if (msg) {
-                        toastr.success(' İşlem başarılı');
-                    } else {
-                        toastr.error("İşlem başarısız");
-                    }
-                }
-            });
-        }
         /*  $(function() {
             $(" #example1").DataTable({ "responsive" : true, "lengthChange" : false, "autoWidth" : false, "buttons" :
         ["copy", "csv" , "excel" , "pdf" , "print" , "colvis" ] }).buttons().container().appendTo('#example1_wrapper

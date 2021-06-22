@@ -4,6 +4,10 @@ return [
     /*
      * DataTables search options.
      */
+    'namespace' => [
+        'base'  => 'DataTables',
+        'model' => '',
+    ],
     'search'         => [
         /*
          * Smart search will enclose search keyword with wildcard string "%keyword%".

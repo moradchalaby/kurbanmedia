@@ -222,7 +222,9 @@
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('dist/js/demo.js') }}"></script>
-    {{-- <script>
+    <script src="{{ asset('dist/js/dataTables.cellEdit.js') }}"></script>
+    {{-- <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+     <script>
         function refreshTable() {
             $.ajaxSetup({
                 headers: {

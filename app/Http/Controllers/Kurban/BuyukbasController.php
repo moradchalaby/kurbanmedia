@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Kurban;
 
 use App\Buyukbas;
+use App\Helpers;
 use App\Referans;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Datatables;
+
 
 class BuyukbasController extends Controller
 {
@@ -16,15 +18,41 @@ class BuyukbasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
-    {
+    {   //
         //
         $model = Buyukbas::select('*');
         if (request()->ajax()) {
+
             return datatables()->of($model)
-                ->addColumn('action', 'company-action')
-                ->rawColumns(['action'])
+
+                ->editColumn('arama_islem', function ($model) {
+
+                    $result = Helpers::aramaislemr($model->arama_islem);
+
+                    return $result;
+                })
+                ->addColumn('vekalet_durum', function ($model) {
+
+                    $result = Helpers::vekaletdurumr($model->vekalet_durum);
+                    return $result;
+                })
+                ->addColumn('referans', function ($model) {
+
+                    //$model->refferans;
+                    $result = DB::table('referans')->where('id', $model->referans)->first();
+                    return $result->adi_soyadi;
+                })
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                })
                 ->addIndexColumn()
+
+
                 ->make(true);
         }
         return view('buyukbas.index');
@@ -39,10 +67,35 @@ class BuyukbasController extends Controller
         //
         $model = Buyukbas::select('*');
         if (request()->ajax()) {
+
             return datatables()->of($model)
-                ->addColumn('action', 'buyukbas.kesilmis-action')
-                ->rawColumns(['action'])
+
+                ->editColumn('arama_islem', function ($model) {
+
+                    $result = Helpers::aramaislemr($model->arama_islem);
+
+                    return $result;
+                })
+                ->addColumn('vekalet_durum', function ($model) {
+
+                    $result = Helpers::vekaletdurumr($model->vekalet_durum);
+                    return $result;
+                })
+                ->addColumn('referans', function ($model) {
+
+                    //$model->refferans;
+                    $result = DB::table('referans')->where('id', $model->referans)->first();
+                    return $result->adi_soyadi;
+                })
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                })
                 ->addIndexColumn()
+
+
                 ->make(true);
         }
         return view('buyukbas.kesilmis');
@@ -93,6 +146,27 @@ class BuyukbasController extends Controller
     public function store(Request $request)
     {
         //
+
+        $video_islem = Helpers::videoislem($_POST['video_islem']);
+        $arama_islem = Helpers::aramaislem($_POST['arama_islem']);
+        $vekalet_durum = Helpers::vekaletdurum($_POST['vekalet_durum']);
+        $company   =   Buyukbas::updateOrCreate(
+            [
+                'id' => $_POST['id']
+            ],
+            [
+
+                'kesilme_no' => $_POST['kesilme_no'],
+                'kesilme_durum' => $_POST['kesilme_durum'],
+                'vekalet_durum' => $vekalet_durum,
+                'arama_islem' => $arama_islem,
+                'video_islem' => $video_islem,
+                'islem_log' => $_POST['islem_log'],
+
+            ]
+        );
+
+        return Response()->json($company);
     }
 
     /**
@@ -104,6 +178,7 @@ class BuyukbasController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**

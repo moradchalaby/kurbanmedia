@@ -32,6 +32,7 @@ Route::namespace('Kurban')->group(function () {
         Route::post('/update', 'BuyukbasController@update')->name('buyukbas.update');
         Route::post('/', 'BuyukbasController@index')->name('buyukbas.reload');
         Route::post('/edit', [BuyukbasController::class, 'edit']);
+        Route::post('/store', [BuyukbasController::class, 'store']);
 
         //PAGE
         //Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');

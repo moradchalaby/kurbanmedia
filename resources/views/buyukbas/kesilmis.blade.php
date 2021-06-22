@@ -22,7 +22,53 @@
     <!-- /.content-header -->
 
 
+    <style>
+        .my-input-class {
+            padding: 3px 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
+        .my-confirm-class {
+            padding: 3px 6px;
+            font-size: 12px;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            border-radius: 4px;
+            background-color: #337ab7;
+            text-decoration: none;
+        }
+
+        .my-cancel-class {
+            padding: 3px 6px;
+            font-size: 12px;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            border-radius: 4px;
+            background-color: #a94442;
+            text-decoration: none;
+        }
+
+        .error {
+            border: solid 1px;
+            border-color: #a94442;
+        }
+
+        .destroy-button {
+            padding: 5px 10px 5px 10px;
+            border: 1px blue solid;
+            background-color: lightgray;
+        }
+
+        .transparent-input {
+            background-color: rgba(0, 0, 0, 0) !important;
+            border: none !important;
+            width: 100%
+        }
+
+    </style>
 
 
     <section class="content">
@@ -121,10 +167,10 @@
                                                 <th><span id='search'>REFERANS</span><br>REFERANS</th>
                                                 <th><span id='search'>GELECEKVEKALET</span><br>GELECEKVEKALET</th>
 
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>Action</th>
+                                                <th>ARAMA</th>
+                                                <th>VİDEO</th>
+                                                <th>İŞLEM</th>
+
                                             </tr>
 
                                         </thead>
@@ -198,6 +244,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -235,25 +282,32 @@
                 });
                 return string.toUpperCase();
             }
-
+            var tablem;
             $(document).ready(function() { // Setup - add a text input to each footer cell
-                $('#example1 thead tr #search').each(function() {
-                    var title = $(this).text();
-                    $(this).html('<input type="text" class = "w-100" placeholder = "ARA -' + title +
-                        '" / > ');
-                });
-                var tablem = $('#example1').DataTable({
+
+                tablem = $('#example1').DataTable({
                     processing: true,
                     serverSide: true,
+                    responsive: false,
+                    lengthChange: true,
+
+
+                    autoWidth: true,
+                    pageLength: 10,
+
+
+                    scrollX: true,
+                    buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
                     ajax: "{{ url('buyukbas/kesilmis') }}",
 
                     columns: [{
                             data: 'id',
                             name: 'id',
-                            createdCell: function(td, cellData, rowData, row, col) {
-                                return '<input type="text" class="no-input-border" name="name" value="' +
-                                    cellData + '" />'
-                            },
+
+                        },
+                        {
+                            data: 'hisse_no',
+                            name: 'hisse_no'
                         },
                         {
                             data: 'sira_no',
@@ -263,14 +317,11 @@
                             data: 'kesilme_no',
                             name: 'kesilme_no'
                         },
-                        {
-                            data: 'hisse_no',
-                            name: 'hisse_no'
-                        },
+
                         {
                             data: 'adi_soyadi',
                             name: 'adi_soyadi',
-                            orderDataType: "dom-text"
+
                         },
                         {
                             data: 'tel_no',
@@ -297,26 +348,12 @@
                             name: 'islem_log'
                         },
 
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false
-                        },
+
                     ],
 
                     order: [
-                        [0, 'desc']
+                        [0, 'asc']
                     ],
-                    "responsive": false,
-                    "lengthChange": true,
-
-
-                    "autoWidth": true,
-                    "pageLength": 10,
-
-
-                    "scrollX": true,
-                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
 
                     initComplete: function() {
                         // Apply the search
@@ -334,27 +371,129 @@
                                 });
                         });
                     }
+
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                tablem = $('#example1').DataTable();
+
+                tablem.MakeCellsEditable({
+                    "onUpdate": myCallbackFunction,
+                    "inputCss": 'transparent-input',
+                    "columns": [3, 8, 9],
+                    "allowNulls": {
+                        "columns": [3],
+                        "errorClass": 'error'
+                    },
+
+                    "inputTypes": [{
+                            "column": 3,
+                            "type": "text",
+                            "options": null
+                        },
+                        {
+                            "column": 8,
+                            "type": "list",
+                            "options": [{
+
+                                    "value": 'arama_islem',
+                                    "display": "SEÇİNİZ"
+                                }, {
+
+                                    "value": "0",
+                                    "display": "ARANMADI"
+                                },
+                                {
+                                    "value": "10",
+                                    "display": "ARANDI"
+                                },
+                                {
+                                    "value": "11",
+                                    "display": "ULAŞILAMADI"
+                                },
+                                {
+                                    "value": "12",
+                                    "display": "NUMARA YANLIŞ"
+                                },
+                                {
+                                    "value": "13",
+                                    "display": "REFERANS ARANDI"
+                                }
+                            ]
+                        },
+                        {
+                            "column": 9,
+                            "type": "list",
+                            "options": [{
+
+                                    "value": 'arama_islem',
+                                    "display": "SEÇİNİZ"
+                                }, {
+
+                                    "value": "0",
+                                    "display": "GÖNDERİLMEDİ"
+                                },
+                                {
+                                    "value": "10",
+                                    "display": "KENDİSİNE GÖNDERİLDİ"
+                                },
+                                {
+                                    "value": "11",
+                                    "display": "REFERANSA GÖNDERİLDİ"
+                                },
+                                {
+                                    "value": "2",
+                                    "display": "WHATSAPP YOK"
+                                }
+                            ]
+                        }
+
+                        // Nothing specified for column 3 so it will default to text
+
+                    ]
+                });
+
             });
 
+            function myCallbackFunction(updatedCell, updatedRow, oldValue) {
 
-            function editFunc(id) {
+                var formData = {
+                    id: updatedRow.data()['id'],
+                    kesilme_no: updatedRow.data()['kesilme_no'],
+                    kesilme_durum: 0,
+                    vekalet_durum: updatedRow.data()['vekalet_durum'],
+                    arama_islem: updatedRow.data()['arama_islem'],
+                    video_islem: updatedRow.data()['video_islem'],
+                    islem_log: 'muratcelebi'
+                }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
-                    type: "POST",
-                    url: "{{ url('buyukbas/edit') }}",
-                    data: {
-                        id: id
+                    type: 'POST',
+                    url: "{{ url('buyukbas/store') }}",
+                    data: formData,
+
+                    success: (data) => {
+
+                        toastr.success(updatedRow.data()['id'] + ' - ' + updatedRow.data()[
+                                'adi_soyadi'] + '<br>' + updatedCell.data() + '<br>' +
+                            ' İşlem başarılı');
+
                     },
-                    dataType: 'json',
-                    success: function(res) {
-                        $('#CompanyModal').html("Edit Company");
-                        $('#company-modal').modal('show');
-                        $('#id').val(res.id);
-                        $('#name').val(res.adi_soyadi);
-                        $('#address').val(res.address);
-                        $('#email').val(res.email);
+                    error: function(data) {
+                        console.log(data);
+                        toastr.error(updatedRow.data()['id'] + ' - ' + updatedRow.data()[
+                                'adi_soyadi'] +
+                            ' İşlem başarısız');
                     }
                 });
             }
+            $('#example1 thead tr #search').each(function() {
+                var title = $(this).text();
+                $(this).html('<input type="text" class = "w-100" placeholder = "ARA -' + title +
+                    '" / > ');
+            });
+
         });
     </script>@endsection

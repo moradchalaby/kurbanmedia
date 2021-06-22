@@ -4,11 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Buyukbas extends Model
+class Helpers extends Model
 {
-    //
-    public $timestamps = false;
-    protected $fillable = ['id', 'sira_no', 'kesilme_no', 'gun', 'hisse_no', 'saat', 'adi_soyadi', 'tel_no', 'referans', 'vekalet_durum', 'kayit_log', 'kesilme_durum', 'arama_islem', 'video_islem', 'islem_log'];
 
     public static function videoislem($deger)
     {
@@ -67,6 +64,68 @@ class Buyukbas extends Model
                 break;
             case 'VEKALET':
                 $result = '1';
+                break;
+
+            default:
+                $result = $deger;
+                break;
+        }
+        return $result;
+    }
+    public static function videoislemr($deger)
+    {
+        switch ($deger) {
+            case '0':
+                $result = 'GÖNDERİLMEDİ';
+                break;
+            case '10':
+                $result = 'KENDİSİNE GÖNDERİLDİ';
+                break;
+            case '11':
+                $result = 'REFERANSA GÖNDERİLDİ';
+                break;
+            case '2':
+                $result = 'WHATSAPP YOK';
+                break;
+
+            default:
+                $result = $deger;
+                break;
+        }
+        return $result;
+    }
+    public static function aramaislemr($deger)
+    {
+        switch ($deger) {
+            case '0':
+                $result = 'ARANMADI';
+                break;
+            case '10':
+                $result = 'ARANDI';
+                break;
+            case '11':
+                $result = 'ULAŞILAMADI';
+                break;
+            case '12':
+                $result = 'NUMARA YANLIŞ';
+                break;
+            case '13':
+                $result = 'REFERANS ARANDI';
+                break;
+            default:
+                $result = $deger;
+                break;
+        }
+        return $result;
+    }
+    public static function vekaletdurumr($deger)
+    {
+        switch ($deger) {
+            case '0':
+                $result = 'GELECEK';
+                break;
+            case '1':
+                $result = 'VEKALET';
                 break;
 
             default:

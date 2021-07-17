@@ -24,7 +24,7 @@ class CreateKucukbasTable extends Migration
             $table->string('saat')->nullable();
             $table->string('adi_soyadi')->nullable();
             $table->string('tel_no')->nullable();
-            $table->string('referans')->nullable();
+            $table->string('referans')->default(8);
             $table->enum('vekalet_durum', ['0', '1'])->default('0');
             /*
             vekalet=1
@@ -36,7 +36,7 @@ class CreateKucukbasTable extends Migration
             kesilmedi = 0
             kesildi= 1
             */
-            $table->enum('arama_islem', ['0', '1', '10', '11', '12', '13'])->default('0');
+            $table->string('arama_islem')->default('0');
             /*arama -------
                 aranmadı=0
                 arandı=1
@@ -44,7 +44,7 @@ class CreateKucukbasTable extends Migration
                 numara yanlış =11
                 referans arandı=12
                 iletişim kurulamadı=13*/
-            $table->enum('video_islem', ['0', '10', '11', '12', '5'])->default('0');
+            $table->string('video_islem')->default('0');
             /*
                     video-----
 

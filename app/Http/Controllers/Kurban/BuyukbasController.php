@@ -38,12 +38,12 @@ class BuyukbasController extends Controller
                     $result = Helpers::vekaletdurumr($model->vekalet_durum);
                     return $result;
                 })
-                ->addColumn('referans', function ($model) {
+                /* ->addColumn('referans', function ($model) {
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
                     return $result->adi_soyadi;
-                })
+                }) */
                 ->editColumn('video_islem', function ($model) {
 
                     $result = Helpers::videoislemr($model->video_islem);

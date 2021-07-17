@@ -55,6 +55,22 @@ class Helpers extends Model
         }
         return $result;
     }
+    public static function kesilmedurum($deger)
+    {
+        switch ($deger) {
+            case 'KESİLMEDİ':
+                $result = '0';
+                break;
+            case 'KESİLDİ':
+                $result = '1';
+                break;
+
+            default:
+                $result = $deger;
+                break;
+        }
+        return $result;
+    }
     public static function vekaletdurum($deger)
     {
 
@@ -86,6 +102,22 @@ class Helpers extends Model
                 break;
             case '2':
                 $result = 'WHATSAPP YOK';
+                break;
+
+            default:
+                $result = $deger;
+                break;
+        }
+        return $result;
+    }
+    public static function kesilmedurumr($deger)
+    {
+        switch ($deger) {
+            case '0':
+                $result = 'KESİLMEDİ';
+                break;
+            case '1':
+                $result = 'KESİLDİ';
                 break;
 
             default:

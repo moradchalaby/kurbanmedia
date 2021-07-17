@@ -24,7 +24,9 @@ Route::namespace('Kurban')->group(function () {
         //BLOG
         // Route::post('/buyukbas/sortable', 'BlogController@sortable')->name('blog.Sortable');
         Route::get('/', 'BuyukbasController@index')->name('buyukbas.index');
-        Route::get('/kesilmis', 'BuyukbasController@kesilmis')->name('buyukbas.kesilmis');
+        Route::get('/tamamlanan', 'BuyukbasController@tamamlanan')->name('buyukbas.tamamlanan');
+        Route::get('/video', 'BuyukbasController@kesilmis')->name('buyukbas.video');
+        Route::get('/arama', 'BuyukbasController@kesilmis')->name('buyukbas.arama');
         Route::get('/kesilmemis', 'BuyukbasController@kesilmemis')->name('buyukbas.kesilmemis');
         Route::get('/rapor', 'BuyukbasController@rapor')->name('buyukbas.rapor');
         Route::get('/detail/{id}', 'BuyukbasController@detail')->name('buyukbas.detail');
@@ -42,7 +44,7 @@ Route::namespace('Kurban')->group(function () {
         //BLOG
         // Route::post('/buyukbas/sortable', 'BlogController@sortable')->name('blog.Sortable');
         Route::get('/', 'KucukbasController@index')->name('kucukbas');
-        Route::get('/kesilmis', 'KucukbasController@kesilmis')->name('kucukbas.kesilmis');
+        Route::get('/tamamlanan', 'KucukbasController@kesilmis')->name('kucukbas.kesilmis');
         Route::get('/kesilmemis', 'KucukbasController@kesilmemis')->name('kucukbas.kesilmemis');
         Route::get('/rapor', 'KucukbasController@rapor')->name('kucukbas.rapor');
         Route::get('/detail/{id}', 'KucukbasController@detail')->name('kucukbas.detail');

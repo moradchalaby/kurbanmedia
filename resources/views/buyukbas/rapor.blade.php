@@ -122,7 +122,7 @@
                                     <div class="card-body card-info ">
 
                                         <button
-                                            onclick="new_popup('{{ '+90' . str_replace('\'', '', $ref['tel_no']) }}', );">{{ str_replace('\'', '', $ref['tel_no']) }}</button>
+                                            onclick="new_popup('{{ $ref['tel_no']}}' );">{{ str_replace('\'', '', $ref['tel_no']) }}</button>
                                     </div>
                                     <div class="card-footer card-info  "><a
                                             href="{{ route('buyukbas.detail', $ref->id) }}"
@@ -148,7 +148,13 @@
         <!--/. container-fluid -->
     </section>
     <!-- /.content -->
-
+<script>
+function new_popup(tel,msg){
+    wpwin= window.open(
+                 "https://api.whatsapp.com/send?phone="+tel+"&text="+msg, "_blank", "width=500, height=350");
+setTimeout(() => wpwin.close(), 3000);
+}
+</script>
 @endsection
 @section('css')@endsection
 @section('js')@endsection

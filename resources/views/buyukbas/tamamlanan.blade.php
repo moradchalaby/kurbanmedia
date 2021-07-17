@@ -182,7 +182,7 @@
 
                                                 <th>ARAMA</th>
                                                 <th>VİDEO</th>
-                                                <th>İŞLEM</th>
+
 
                                             </tr>
 
@@ -272,7 +272,7 @@
 
                     "scrollX": true,
                     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                    "ajax": "{{ url('buyukbas/kesilmis') }}",
+                    "ajax": "{{ url('buyukbas/tamamlanan') }}",
 
                     "columns": [{
                             data: 'id',
@@ -317,10 +317,8 @@
                             data: 'video_islem',
                             name: 'video_islem'
                         },
-                        {
-                            data: 'islem_log',
-                            name: 'islem_log'
-                        },
+
+
 
 
                     ],
@@ -368,27 +366,27 @@
                             "type": "list",
                             "options": [{
 
-                                    "value": 'arama_islem',
+                                    "value": 'SEÇİNİZ',
                                     "display": "SEÇİNİZ"
                                 }, {
 
-                                    "value": "0",
+                                    "value": "ARANMADI",
                                     "display": "ARANMADI"
                                 },
                                 {
-                                    "value": "10",
+                                    "value": "ARANDI",
                                     "display": "ARANDI"
                                 },
                                 {
-                                    "value": "11",
+                                    "value": "ULAŞILAMADI",
                                     "display": "ULAŞILAMADI"
                                 },
                                 {
-                                    "value": "12",
+                                    "value": "NUMARA YANLIŞ",
                                     "display": "NUMARA YANLIŞ"
                                 },
                                 {
-                                    "value": "13",
+                                    "value": "REFERANS ARANDI",
                                     "display": "REFERANS ARANDI"
                                 }
                             ]
@@ -398,23 +396,23 @@
                             "type": "list",
                             "options": [{
 
-                                    "value": 'arama_islem',
+                                    "value": 'SEÇİNİZ',
                                     "display": "SEÇİNİZ"
                                 }, {
 
-                                    "value": "0",
+                                    "value": "GÖNDERİLMEDİ",
                                     "display": "GÖNDERİLMEDİ"
                                 },
                                 {
-                                    "value": "10",
+                                    "value": "KENDİSİNE GÖNDERİLDİ",
                                     "display": "KENDİSİNE GÖNDERİLDİ"
                                 },
                                 {
-                                    "value": "11",
+                                    "value": "REFERANSA GÖNDERİLDİ1",
                                     "display": "REFERANSA GÖNDERİLDİ"
                                 },
                                 {
-                                    "value": "2",
+                                    "value": "WHATSAPP YOK",
                                     "display": "WHATSAPP YOK"
                                 }
                             ]
@@ -472,4 +470,5 @@
             });
 
         });
-    </script>@endsection
+
+</script>@endsection

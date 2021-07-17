@@ -19,18 +19,15 @@ class CreateBuyukbasTable extends Migration
             $table->timestamp('update_at')->nullable()->useCurrent();
             $table->integer('sira_no')->nullable();
             $table->integer('kesilme_no')->nullable();
-            $table->integer('gun')->nullable();
             $table->integer('hisse_no')->nullable();
-            $table->string('saat')->nullable();
             $table->string('adi_soyadi')->nullable();
             $table->string('tel_no')->nullable();
-            $table->string('referans')->default(8);
+            $table->integer('referans')->default(0);
             $table->enum('vekalet_durum', ['0', '1'])->default('0');
             /*
             vekalet=1
             gelecek=0
             */
-            $table->string('kayit_log')->nullable();
             $table->enum('kesilme_durum', ['0', '1'])->default('0');
             /*,
             kesilmedi = 0
@@ -54,8 +51,6 @@ class CreateBuyukbasTable extends Migration
                     tlgrm 11
                     bip 12
                     */
-
-            $table->integer('islem_log')->nullable();
         });
     }
 

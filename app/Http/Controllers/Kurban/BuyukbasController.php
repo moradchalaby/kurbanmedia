@@ -27,29 +27,33 @@ class BuyukbasController extends Controller
 
             return datatables()->of($model)
 
-                ->editColumn('arama_islem', function ($model) {
 
-                    $result = Helpers::aramaislemr($model->arama_islem);
-
-                    return $result;
-                })
                 ->addColumn('vekalet_durum', function ($model) {
 
                     $result = Helpers::vekaletdurumr($model->vekalet_durum);
                     return $result;
                 })
-                /* ->addColumn('referans', function ($model) {
+                ->addColumn('referans', function ($model) {
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
                     return $result->adi_soyadi;
-                }) */
-                ->editColumn('video_islem', function ($model) {
+                })
+                ->addColumn('kesilme_durum', function ($model) {
 
-                    $result = Helpers::videoislemr($model->video_islem);
-
+                    $result = Helpers::kesilmedurumr($model->kesilme_durum);
                     return $result;
                 })
+                ->addColumn('tel_no', function ($row) {
+                    $msg = $row->id . ' makbuz numaralı kurbanınız ' . $row->adi_soyadi . ' adına ' . $row->kesilme_no . '. sırada kesilmiştir. Cenab-ı Hak hayrınız kabul eylesin. Bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $row->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-primary btn-sm">wp</button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm">Edit</a>';
+
+
+                    return $btn;
+                })
+                ->rawColumns(['tel_no'])
                 ->addIndexColumn()
 
 
@@ -62,20 +66,22 @@ class BuyukbasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function kesilmis()
+    public function tamamlanan()
     {
         //
-        $model = Buyukbas::select('*');
+        $model = Buyukbas::where('arama_islem', 'ARANDI')->where('video_islem', 'GÖNDERİLDİ');
         if (request()->ajax()) {
+
+
 
             return datatables()->of($model)
 
-                ->editColumn('arama_islem', function ($model) {
+                /*  ->editColumn('arama_islem', function ($model) {
 
                     $result = Helpers::aramaislemr($model->arama_islem);
 
                     return $result;
-                })
+                })*/
                 ->addColumn('vekalet_durum', function ($model) {
 
                     $result = Helpers::vekaletdurumr($model->vekalet_durum);
@@ -87,12 +93,13 @@ class BuyukbasController extends Controller
                     $result = DB::table('referans')->where('id', $model->referans)->first();
                     return $result->adi_soyadi;
                 })
+                /*
                 ->editColumn('video_islem', function ($model) {
 
                     $result = Helpers::videoislemr($model->video_islem);
 
                     return $result;
-                })
+                }) */
                 ->addIndexColumn()
 
 
@@ -101,9 +108,111 @@ class BuyukbasController extends Controller
 
                 ->make(true);
         }
-        return view('buyukbas.kesilmis');
+        return view('buyukbas.tamamlanan');
     }
+    public function video()
+    {
+        //
+        $model = Buyukbas::where('vekalet_durum', '1')
+            ->where('kesilme_durum', '1')
+            ->where('arama_islem', 'ULAŞILAMADI')
+            ->where('arama_islem', 'SEÇİNİZ')
+            ->where('arama_islem', 'NUMARA YANLIŞ')
+            ->where('arama_islem', 'ARANMADI')
+            ->where('video_islem', 'SEÇİNİZ')
+            ->where('video_islem', 'GÖNDERİLMEDİ')
+            ->where('video_islem', 'WHATSAPP YOK');
+        if (request()->ajax()) {
 
+
+
+            return datatables()->of($model)
+
+                /*  ->editColumn('arama_islem', function ($model) {
+
+                    $result = Helpers::aramaislemr($model->arama_islem);
+
+                    return $result;
+                })*/
+                ->addColumn('vekalet_durum', function ($model) {
+
+                    $result = Helpers::vekaletdurumr($model->vekalet_durum);
+                    return $result;
+                })
+                ->addColumn('referans', function ($model) {
+
+                    //$model->refferans;
+                    $result = DB::table('referans')->where('id', $model->referans)->first();
+                    return $result->adi_soyadi;
+                })
+                /*
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                }) */
+                ->addIndexColumn()
+
+
+
+
+
+                ->make(true);
+        }
+        return view('buyukbas.video');
+    }
+    public function arama()
+    {
+        //
+        $model = Buyukbas::where('vekalet_durum', '1')
+            ->where('kesilme_durum', '1')
+            ->where('arama_islem', 'ULAŞILAMADI')
+            ->where('arama_islem', 'SEÇİNİZ')
+            ->where('arama_islem', 'NUMARA YANLIŞ')
+            ->where('arama_islem', 'ARANMADI');
+
+        if (request()->ajax()) {
+
+
+
+            return datatables()->of($model)
+
+                /*  ->editColumn('arama_islem', function ($model) {
+
+                    $result = Helpers::aramaislemr($model->arama_islem);
+
+                    return $result;
+                })*/
+                ->addColumn('vekalet_durum', function ($model) {
+
+                    $result = Helpers::vekaletdurumr($model->vekalet_durum);
+                    return $result;
+                })
+                ->addColumn('referans', function ($model) {
+
+                    //$model->refferans;
+                    $result = DB::table('referans')->where('id', $model->referans)->first();
+                    return $result->adi_soyadi;
+                })
+
+                /*
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                }) */
+                ->addIndexColumn()
+
+
+
+
+
+                ->make(true);
+        }
+        return view('buyukbas.arama');
+    }
     /**
      * Show the form for creating a new resource.
      *@return \Illuminate\Http\Response
@@ -162,9 +271,9 @@ class BuyukbasController extends Controller
                 'kesilme_no' => $_POST['kesilme_no'],
                 'kesilme_durum' => $_POST['kesilme_durum'],
                 'vekalet_durum' => $vekalet_durum,
-                'arama_islem' => $arama_islem,
-                'video_islem' => $video_islem,
-                'islem_log' => $_POST['islem_log'],
+                'arama_islem' => $_POST['arama_islem'],
+                'video_islem' => $_POST['video_islem'],
+                //'islem_log' => $_POST['islem_log'],
 
             ]
         );

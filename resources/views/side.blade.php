@@ -54,9 +54,21 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('buyukbas.kesilmis') }}" class="nav-link">
+                        <a href="{{-- route('buyukbas.kesilmemis') --}}" class="nav-link">
+                            <i class="nav-icon fas fa-video text-purple"></i>
+                            <p>Video</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{-- route('buyukbas.kesilmemis') --}}" class="nav-link">
+                            <i class="nav-icon fas fa-phone text-gray"></i>
+                            <p>Arama</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('buyukbas.tamamlanan') }}" class="nav-link">
                             <i class="nav-icon fas fa-check text-teal"></i>
-                            <p>Kesilen</p>
+                            <p>Tamamlanan</p>
                         </a>
                     </li>
                     <li class="nav-item">

@@ -73,73 +73,7 @@
 
     <section class="content">
         <div class="container-fluid">
-            <!-- Info boxes -->
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-info elevation-1"> <span class="iconify" data-icon="mdi:sheep"
-                                data-inline="false"></span></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">CPU Traffic</span>
-                            <span class="info-box-number">
-                                10
-                                <small>%</small>
-                            </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-danger elevation-1"> <span class="iconify" data-icon="mdi:cow"
-                                data-inline="false"></span></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Likes</span>
-                            <span class="info-box-number">41,410</span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-
-                <!-- fix for small devices only -->
-                <div class="clearfix hidden-md-up"></div>
-
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-success elevation-1"><span class="iconify"
-                                data-icon="akar-icons:phone" data-inline="false"></span></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Sales</span>
-                            <span class="info-box-number">760</span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-warning elevation-1"> <span class="iconify"
-                                data-icon="ri:video-chat-fill" data-inline="false"></span></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">New Members</span>
-                            <span class="info-box-number">2,000</span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
+@include('kucukbas/info')
 
             <section class="content">
                 <div class="container-fluid">
@@ -180,7 +114,8 @@
                                                 <th><span id='search'>REFERANS</span><br>REFERANS</th>
                                                 <th><span id='search'>GELECEKVEKALET</span><br>GELECEKVEKALET</th>
 
-                                                <th><span id='search'>VIDEO</span><br>VİDEO</th>
+                                                <th>ARAMA</th>
+                                                <th>VİDEO</th>
 
 
                                             </tr>
@@ -212,13 +147,6 @@
 @endsection
 @section('css')@endsection
 @section('js')
-<script>
-function new_popup(tel,msg){
-    wpwin= window.open(
-                 "https://api.whatsapp.com/send?phone="+tel+"&text="+msg, "_blank", "width=500, height=350");
-setTimeout(() => wpwin.close(), 3000);
-}
-</script>
     <script>
         function refreshTable() {
             $('#example1').DataTable().draw();
@@ -278,7 +206,7 @@ setTimeout(() => wpwin.close(), 3000);
 
                     "scrollX": true,
                     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                    "ajax": "{{ url('kucukbas/kesilmemis') }}",
+                    "ajax": "{{ url('kucukbas/arama') }}",
 
                     "columns": [{
                             data: 'id',
@@ -315,7 +243,10 @@ setTimeout(() => wpwin.close(), 3000);
                             data: 'vekalet_durum',
                             name: 'vekalet_durum'
                         },
-
+                        {
+                            data: 'arama_islem',
+                            name: 'arama_islem'
+                        },
                         {
                             data: 'video_islem',
                             name: 'video_islem'
@@ -349,30 +280,10 @@ setTimeout(() => wpwin.close(), 3000);
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 tablem = $('#example1').DataTable();
 
-                /* tablem.MakeCellsEditable({
+                tablem.MakeCellsEditable({
                     "onUpdate": myCallbackFunction,
                     "inputCss": 'transparent-input',
-                    "columns": [3],
-                    "allowNulls": {
-                        "columns": [3],
-                        "errorClass": 'error'
-                    },
-
-                    "inputTypes": [{
-                            "column": 3,
-                            "type": "text",
-                            "options": null
-                        }
-
-
-                        // Nothing specified for column 3 so it will default to text
-
-                    ]
-                }); */
-            tablem.MakeCellsEditable({
-                    "onUpdate": vekaletdrm,
-                    "inputCss": 'transparent-input',
-                    "columns": [3,7],
+                    "columns": [3, 8, 9],
                     "allowNulls": {
                         "columns": [3],
                         "errorClass": 'error'
@@ -384,73 +295,76 @@ setTimeout(() => wpwin.close(), 3000);
                             "options": null
                         },
                         {
-                            "column": 7,
+                            "column": 8,
                             "type": "list",
                             "options": [{
 
-                                    "value": '',
-                                    "display": "Sec"
-                                },{
-
-                                    "value": '0',
-                                    "display": "GELECEK"
+                                    "value": 'SEÇİNİZ',
+                                    "display": "SEÇİNİZ"
                                 }, {
 
-                                    "value": "1",
-                                    "display": "VEKALET"
+                                    "value": "ARANMADI",
+                                    "display": "ARANMADI"
                                 },
-
+                                {
+                                    "value": "ARANDI",
+                                    "display": "ARANDI"
+                                },
+                                {
+                                    "value": "ULAŞILAMADI",
+                                    "display": "ULAŞILAMADI"
+                                },
+                                {
+                                    "value": "NUMARA YANLIŞ",
+                                    "display": "NUMARA YANLIŞ"
+                                },
+                                {
+                                    "value": "REFERANS ARANDI",
+                                    "display": "REFERANS ARANDI"
+                                }
                             ]
                         },
+                        {
+                            "column": 9,
+                            "type": "list",
+                            "options": [{
 
+                                    "value": 'SEÇİNİZ',
+                                    "display": "SEÇİNİZ"
+                                }, {
+
+                                    "value": "GÖNDERİLMEDİ",
+                                    "display": "GÖNDERİLMEDİ"
+                                },
+                                {
+                                    "value": "KENDİSİNE GÖNDERİLDİ",
+                                    "display": "KENDİSİNE GÖNDERİLDİ"
+                                },
+                                {
+                                    "value": "REFERANSA GÖNDERİLDİ1",
+                                    "display": "REFERANSA GÖNDERİLDİ"
+                                },
+                                {
+                                    "value": "WHATSAPP YOK",
+                                    "display": "WHATSAPP YOK"
+                                }
+                            ]
+                        }
 
                         // Nothing specified for column 3 so it will default to text
 
                     ]
                 });
+
             });
-            function vekaletdrm(updatedCell, updatedRow, oldValue) {
 
-                var formData = {
-                    id: updatedRow.data()['id'],
-
-                    vekalet_durum: updatedRow.data()['vekalet_durum'],
-                    kesilme_no: updatedRow.data()['kesilme_no'],
-
-                }
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ url('kucukbas/vekaletdrm') }}",
-                    data: formData,
-
-                    success: (data) => {
-
-                        toastr.success(updatedRow.data()['id'] + ' - ' + updatedRow.data()[
-                                'adi_soyadi'] + '<br>' + updatedCell.data() + '<br>' +
-                            ' İşlem başarılı');
-
-                    },
-                    error: function(data) {
-                        console.log(data);
-                        toastr.error(updatedRow.data()['id'] + ' - ' + updatedRow.data()[
-                                'adi_soyadi'] +
-                            ' İşlem başarısız');
-                    }
-                });
-                $('#example1').DataTable().draw();
-            }
 
             function myCallbackFunction(updatedCell, updatedRow, oldValue) {
 
                 var formData = {
                     id: updatedRow.data()['id'],
-
-                    kesilme_no: updatedRow.data()['kesilme_no'],
+                    arama_islem: updatedRow.data()['arama_islem'],
+                    video_islem: updatedRow.data()['video_islem'],
 
                 }
                 $.ajaxSetup({
@@ -460,7 +374,7 @@ setTimeout(() => wpwin.close(), 3000);
                 });
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('kucukbas/kesilmedrm') }}",
+                    url: "{{ url('kucukbas/aramadrm') }}",
                     data: formData,
 
                     success: (data) => {

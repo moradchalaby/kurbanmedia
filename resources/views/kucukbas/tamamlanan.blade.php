@@ -180,7 +180,8 @@
                                                 <th><span id='search'>REFERANS</span><br>REFERANS</th>
                                                 <th><span id='search'>GELECEKVEKALET</span><br>GELECEKVEKALET</th>
 
-                                                <th><span id='search'>VIDEO</span><br>VİDEO</th>
+                                                <th>ARAMA</th>
+                                                <th>VİDEO</th>
 
 
                                             </tr>
@@ -212,13 +213,6 @@
 @endsection
 @section('css')@endsection
 @section('js')
-<script>
-function new_popup(tel,msg){
-    wpwin= window.open(
-                 "https://api.whatsapp.com/send?phone="+tel+"&text="+msg, "_blank", "width=500, height=350");
-setTimeout(() => wpwin.close(), 3000);
-}
-</script>
     <script>
         function refreshTable() {
             $('#example1').DataTable().draw();
@@ -278,7 +272,7 @@ setTimeout(() => wpwin.close(), 3000);
 
                     "scrollX": true,
                     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                    "ajax": "{{ url('kucukbas/kesilmemis') }}",
+                    "ajax": "{{ url('kucukbas/tamamlanan') }}",
 
                     "columns": [{
                             data: 'id',
@@ -315,11 +309,15 @@ setTimeout(() => wpwin.close(), 3000);
                             data: 'vekalet_durum',
                             name: 'vekalet_durum'
                         },
-
+                        {
+                            data: 'arama_islem',
+                            name: 'arama_islem'
+                        },
                         {
                             data: 'video_islem',
                             name: 'video_islem'
                         },
+
 
 
 
@@ -349,30 +347,10 @@ setTimeout(() => wpwin.close(), 3000);
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 tablem = $('#example1').DataTable();
 
-                /* tablem.MakeCellsEditable({
+                tablem.MakeCellsEditable({
                     "onUpdate": myCallbackFunction,
                     "inputCss": 'transparent-input',
-                    "columns": [3],
-                    "allowNulls": {
-                        "columns": [3],
-                        "errorClass": 'error'
-                    },
-
-                    "inputTypes": [{
-                            "column": 3,
-                            "type": "text",
-                            "options": null
-                        }
-
-
-                        // Nothing specified for column 3 so it will default to text
-
-                    ]
-                }); */
-            tablem.MakeCellsEditable({
-                    "onUpdate": vekaletdrm,
-                    "inputCss": 'transparent-input',
-                    "columns": [3,7],
+                    "columns": [3, 8, 9],
                     "allowNulls": {
                         "columns": [3],
                         "errorClass": 'error'
@@ -384,74 +362,80 @@ setTimeout(() => wpwin.close(), 3000);
                             "options": null
                         },
                         {
-                            "column": 7,
+                            "column": 8,
                             "type": "list",
                             "options": [{
 
-                                    "value": '',
-                                    "display": "Sec"
-                                },{
-
-                                    "value": '0',
-                                    "display": "GELECEK"
+                                    "value": 'SEÇİNİZ',
+                                    "display": "SEÇİNİZ"
                                 }, {
 
-                                    "value": "1",
-                                    "display": "VEKALET"
+                                    "value": "ARANMADI",
+                                    "display": "ARANMADI"
                                 },
-
+                                {
+                                    "value": "ARANDI",
+                                    "display": "ARANDI"
+                                },
+                                {
+                                    "value": "ULAŞILAMADI",
+                                    "display": "ULAŞILAMADI"
+                                },
+                                {
+                                    "value": "NUMARA YANLIŞ",
+                                    "display": "NUMARA YANLIŞ"
+                                },
+                                {
+                                    "value": "REFERANS ARANDI",
+                                    "display": "REFERANS ARANDI"
+                                }
                             ]
                         },
+                        {
+                            "column": 9,
+                            "type": "list",
+                            "options": [{
 
+                                    "value": 'SEÇİNİZ',
+                                    "display": "SEÇİNİZ"
+                                }, {
+
+                                    "value": "GÖNDERİLMEDİ",
+                                    "display": "GÖNDERİLMEDİ"
+                                },
+                                {
+                                    "value": "KENDİSİNE GÖNDERİLDİ",
+                                    "display": "KENDİSİNE GÖNDERİLDİ"
+                                },
+                                {
+                                    "value": "REFERANSA GÖNDERİLDİ1",
+                                    "display": "REFERANSA GÖNDERİLDİ"
+                                },
+                                {
+                                    "value": "WHATSAPP YOK",
+                                    "display": "WHATSAPP YOK"
+                                }
+                            ]
+                        }
 
                         // Nothing specified for column 3 so it will default to text
 
                     ]
                 });
+
             });
-            function vekaletdrm(updatedCell, updatedRow, oldValue) {
 
-                var formData = {
-                    id: updatedRow.data()['id'],
-
-                    vekalet_durum: updatedRow.data()['vekalet_durum'],
-                    kesilme_no: updatedRow.data()['kesilme_no'],
-
-                }
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ url('kucukbas/vekaletdrm') }}",
-                    data: formData,
-
-                    success: (data) => {
-
-                        toastr.success(updatedRow.data()['id'] + ' - ' + updatedRow.data()[
-                                'adi_soyadi'] + '<br>' + updatedCell.data() + '<br>' +
-                            ' İşlem başarılı');
-
-                    },
-                    error: function(data) {
-                        console.log(data);
-                        toastr.error(updatedRow.data()['id'] + ' - ' + updatedRow.data()[
-                                'adi_soyadi'] +
-                            ' İşlem başarısız');
-                    }
-                });
-                $('#example1').DataTable().draw();
-            }
 
             function myCallbackFunction(updatedCell, updatedRow, oldValue) {
 
                 var formData = {
                     id: updatedRow.data()['id'],
-
                     kesilme_no: updatedRow.data()['kesilme_no'],
-
+                    kesilme_durum: 0,
+                    vekalet_durum: updatedRow.data()['vekalet_durum'],
+                    arama_islem: updatedRow.data()['arama_islem'],
+                    video_islem: updatedRow.data()['video_islem'],
+                    islem_log: 'muratcelebi'
                 }
                 $.ajaxSetup({
                     headers: {
@@ -460,7 +444,7 @@ setTimeout(() => wpwin.close(), 3000);
                 });
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('kucukbas/kesilmedrm') }}",
+                    url: "{{ url('kucukbas/store') }}",
                     data: formData,
 
                     success: (data) => {

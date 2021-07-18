@@ -180,8 +180,7 @@
                                                 <th><span id='search'>REFERANS</span><br>REFERANS</th>
                                                 <th><span id='search'>GELECEKVEKALET</span><br>GELECEKVEKALET</th>
 
-                                                <th>ARAMA</th>
-                                                <th>VİDEO</th>
+                                                <th><span id='search'>VIDEO</span><br>VİDEO</th>
 
 
                                             </tr>
@@ -279,7 +278,7 @@ setTimeout(() => wpwin.close(), 3000);
 
                     "scrollX": true,
                     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                    "ajax": "{{ url('buyukbas/kesilmis') }}",
+                    "ajax": "{{ url('buyukbas/video') }}",
 
                     "columns": [{
                             data: 'id',
@@ -316,10 +315,7 @@ setTimeout(() => wpwin.close(), 3000);
                             data: 'vekalet_durum',
                             name: 'vekalet_durum'
                         },
-                        {
-                            data: 'arama_islem',
-                            name: 'arama_islem'
-                        },
+
                         {
                             data: 'video_islem',
                             name: 'video_islem'
@@ -356,7 +352,7 @@ setTimeout(() => wpwin.close(), 3000);
                 tablem.MakeCellsEditable({
                     "onUpdate": myCallbackFunction,
                     "inputCss": 'transparent-input',
-                    "columns": [3, 8, 9],
+                    "columns": [3, 8],
                     "allowNulls": {
                         "columns": [3],
                         "errorClass": 'error'
@@ -367,7 +363,7 @@ setTimeout(() => wpwin.close(), 3000);
                             "type": "text",
                             "options": null
                         },
-                        {
+                        /* {
                             "column": 8,
                             "type": "list",
                             "options": [{
@@ -396,9 +392,9 @@ setTimeout(() => wpwin.close(), 3000);
                                     "display": "REFERANS ARANDI"
                                 }
                             ]
-                        },
+                        }, */
                         {
-                            "column": 9,
+                            "column": 8,
                             "type": "list",
                             "options": [{
 
@@ -436,12 +432,9 @@ setTimeout(() => wpwin.close(), 3000);
 
                 var formData = {
                     id: updatedRow.data()['id'],
-                    kesilme_no: updatedRow.data()['kesilme_no'],
-                    kesilme_durum: 0,
-                    vekalet_durum: updatedRow.data()['vekalet_durum'],
-                    arama_islem: updatedRow.data()['arama_islem'],
+
                     video_islem: updatedRow.data()['video_islem'],
-                    islem_log: 'muratcelebi'
+
                 }
                 $.ajaxSetup({
                     headers: {
@@ -450,7 +443,7 @@ setTimeout(() => wpwin.close(), 3000);
                 });
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('buyukbas/store') }}",
+                    url: "{{ url('buyukbas/videodrm') }}",
                     data: formData,
 
                     success: (data) => {

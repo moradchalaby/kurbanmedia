@@ -22,7 +22,7 @@ class CreateKucukbasTable extends Migration
             $table->integer('hisse_no')->nullable();
             $table->string('adi_soyadi')->nullable();
             $table->string('tel_no')->nullable();
-            $table->string('referans')->default(8);
+            $table->integer('referans')->default(0);
             $table->enum('vekalet_durum', ['0', '1'])->default('0');
             /*
             vekalet=1

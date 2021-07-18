@@ -272,7 +272,7 @@
 
                     "scrollX": true,
                     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                    "ajax": "{{ url('buyukbas/kesilmis') }}",
+                    "ajax": "{{ url('buyukbas/arama') }}",
 
                     "columns": [{
                             data: 'id',

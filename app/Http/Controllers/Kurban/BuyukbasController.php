@@ -45,10 +45,10 @@ class BuyukbasController extends Controller
                     return $result;
                 })
                 ->addColumn('tel_no', function ($row) {
-                    $msg = $row->id . ' makbuz numaralı kurbanınız ' . $row->adi_soyadi . ' adına ' . $row->kesilme_no . '. sırada kesilmiştir. Cenab-ı Hak hayrınız kabul eylesin. Bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
                     $btn = $row->tel_no;
                     $btn =
-                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-primary btn-sm">wp</button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm">Edit</a>';
+                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
 
 
                     return $btn;
@@ -115,13 +115,10 @@ class BuyukbasController extends Controller
         //
         $model = Buyukbas::where('vekalet_durum', '1')
             ->where('kesilme_durum', '1')
-            ->where('arama_islem', 'ULAŞILAMADI')
-            ->where('arama_islem', 'SEÇİNİZ')
-            ->where('arama_islem', 'NUMARA YANLIŞ')
-            ->where('arama_islem', 'ARANMADI')
+
             ->where('video_islem', 'SEÇİNİZ')
-            ->where('video_islem', 'GÖNDERİLMEDİ')
-            ->where('video_islem', 'WHATSAPP YOK');
+            ->orwhere('video_islem', 'GÖNDERİLMEDİ')
+            ->orwhere('video_islem', 'WHATSAPP YOK');
         if (request()->ajax()) {
 
 
@@ -152,6 +149,16 @@ class BuyukbasController extends Controller
 
                     return $result;
                 }) */
+                ->addColumn('tel_no', function ($row) {
+                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $row->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+
+                    return $btn;
+                })
+                ->rawColumns(['tel_no'])
                 ->addIndexColumn()
 
 
@@ -167,10 +174,13 @@ class BuyukbasController extends Controller
         //
         $model = Buyukbas::where('vekalet_durum', '1')
             ->where('kesilme_durum', '1')
+            ->where('video_islem', 'KENDİSİNE GÖNDERİLDİ')
+            ->orwhere('video_islem', 'REFERANSA GÖNDERİLDİ')
+            ->orwhere('video_islem', 'WHATSAPP YOK')
             ->where('arama_islem', 'ULAŞILAMADI')
-            ->where('arama_islem', 'SEÇİNİZ')
-            ->where('arama_islem', 'NUMARA YANLIŞ')
-            ->where('arama_islem', 'ARANMADI');
+            ->orwhere('arama_islem', 'SEÇİNİZ')
+            ->orwhere('arama_islem', 'NUMARA YANLIŞ')
+            ->orwhere('arama_islem', 'ARANMADI');
 
         if (request()->ajax()) {
 
@@ -189,13 +199,28 @@ class BuyukbasController extends Controller
                     $result = Helpers::vekaletdurumr($model->vekalet_durum);
                     return $result;
                 })
-                ->addColumn('referans', function ($model) {
 
-                    //$model->refferans;
-                    $result = DB::table('referans')->where('id', $model->referans)->first();
-                    return $result->adi_soyadi;
+                ->addColumn('tel_no', function ($row) {
+                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $row->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+
+                    return $btn;
                 })
+                ->rawColumns(['tel_no'])
 
+                ->addColumn('referans', function ($row) {
+                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $row->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-primary btn-sm">wp</button>' . '  ' . $row->adi_soyadi . '  ' . '<a href="tel:+' . $row->tel_no . '" class="edit btn btn-primary btn-sm">Edit</a>';
+
+
+                    return $btn;
+                })
+                ->rawColumns(['referans'])
                 /*
                 ->editColumn('video_islem', function ($model) {
 
@@ -234,9 +259,54 @@ class BuyukbasController extends Controller
     public function kesilmemis()
     {
         //
-        $data['buyukbas'] =
-            Buyukbas::all()->where('kesilme_durum', 0)->sortBy('sira_no');
-        return view('buyukbas.kesilmemis', compact('data'));
+        $model = Buyukbas::where('kesilme_durum', '0');
+
+        if (request()->ajax()) {
+
+
+
+            return datatables()->of($model)
+
+                /*  ->editColumn('arama_islem', function ($model) {
+
+                    $result = Helpers::aramaislemr($model->arama_islem);
+
+                    return $result;
+                })*/
+                ->addColumn('vekalet_durum', function ($model) {
+
+                    $result = Helpers::vekaletdurumr($model->vekalet_durum);
+                    return $result;
+                })
+                ->addColumn('referans', function ($model) {
+
+                    //$model->refferans;
+                    $result = DB::table('referans')->where('id', $model->referans)->first();
+                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $result->adi_soyadi;
+                    $btn =
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-primary btn-sm"><i class="nav-icon fas fa-whatsapp text-gray"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="nav-icon fas fa-phone text-gray"></i></a>';
+
+
+                    return $result->adi_soyadi;
+                })
+
+                /*
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                }) */
+                ->addIndexColumn()
+
+
+
+
+
+                ->make(true);
+        }
+        return view('buyukbas.kesilmemis');
     }
 
     /**
@@ -248,7 +318,126 @@ class BuyukbasController extends Controller
     {
         //
     }
+    //? UPDATE ISLEMLERI
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function kesilmedrm(Request $request)
+    {
+        //
 
+
+        $company   =   Buyukbas::updateOrCreate(
+            [
+                'id' => $_POST['id']
+            ],
+            [
+
+                'kesilme_no' => $_POST['kesilme_no'],
+
+                'kesilme_durum' => 1,
+
+                //'islem_log' => $_POST['islem_log'],
+
+            ]
+        );
+
+        return Response()->json($company);
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function videodrm(Request $request)
+    {
+        //
+
+
+        $company   =   Buyukbas::updateOrCreate(
+            [
+                'id' => $_POST['id']
+            ],
+            [
+
+
+                'video_islem' => $_POST['video_islem'],
+
+                //'islem_log' => $_POST['islem_log'],
+
+            ]
+        );
+
+        return Response()->json($company);
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function aramadrm(Request $request)
+    {
+        //
+
+        $video_islem = Helpers::videoislem($_POST['video_islem']);
+        $arama_islem = Helpers::aramaislem($_POST['arama_islem']);
+        $vekalet_durum = Helpers::vekaletdurum($_POST['vekalet_durum']);
+        $company   =   Buyukbas::updateOrCreate(
+            [
+                'id' => $_POST['id']
+            ],
+            [
+
+
+                'arama_islem' => $_POST['arama_islem'],
+
+                //'islem_log' => $_POST['islem_log'],
+
+            ]
+        );
+
+        return Response()->json($company);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function vekaletdrm(Request $request)
+    {
+        //
+        $drm = 0;
+        if ($_POST['kesilme_no'] == 0) {
+            $drm = '0';
+        } else {
+            $drm = '1';
+        }
+        $vekalet_durum = Helpers::vekaletdurum($_POST['vekalet_durum']);
+        $company   =   Buyukbas::updateOrCreate(
+            [
+                'id' => $_POST['id']
+            ],
+            [
+                'kesilme_no' => $_POST['kesilme_no'],
+
+                'kesilme_durum' => $drm,
+
+                'vekalet_durum' => $vekalet_durum,
+
+                //'islem_log' => $_POST['islem_log'],
+
+            ]
+        );
+
+        return Response()->json($company);
+    }
     /**
      * Store a newly created resource in storage.
      *

@@ -54,13 +54,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{-- route('buyukbas.kesilmemis') --}}" class="nav-link">
+                        <a href="{{route('buyukbas.video') }}" class="nav-link">
                             <i class="nav-icon fas fa-video text-purple"></i>
                             <p>Video</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{-- route('buyukbas.kesilmemis') --}}" class="nav-link">
+                        <a href="{{ route('buyukbas.arama') }}" class="nav-link">
                             <i class="nav-icon fas fa-phone text-gray"></i>
                             <p>Arama</p>
                         </a>
@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{-- route('buyukbas.kesilmemis') --}}" class="nav-link">
+                        <a href="{{ route('buyukbas.kesilmemis') }}" class="nav-link">
                             <i class="nav-icon fas fa-times text-danger"></i>
                             <p>Kesilmeyen</p>
                         </a>

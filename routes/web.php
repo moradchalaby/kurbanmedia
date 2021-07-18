@@ -25,8 +25,8 @@ Route::namespace('Kurban')->group(function () {
         // Route::post('/buyukbas/sortable', 'BlogController@sortable')->name('blog.Sortable');
         Route::get('/', 'BuyukbasController@index')->name('buyukbas.index');
         Route::get('/tamamlanan', 'BuyukbasController@tamamlanan')->name('buyukbas.tamamlanan');
-        Route::get('/video', 'BuyukbasController@kesilmis')->name('buyukbas.video');
-        Route::get('/arama', 'BuyukbasController@kesilmis')->name('buyukbas.arama');
+        Route::get('/video', 'BuyukbasController@video')->name('buyukbas.video');
+        Route::get('/arama', 'BuyukbasController@arama')->name('buyukbas.arama');
         Route::get('/kesilmemis', 'BuyukbasController@kesilmemis')->name('buyukbas.kesilmemis');
         Route::get('/rapor', 'BuyukbasController@rapor')->name('buyukbas.rapor');
         Route::get('/detail/{id}', 'BuyukbasController@detail')->name('buyukbas.detail');
@@ -35,6 +35,10 @@ Route::namespace('Kurban')->group(function () {
         Route::post('/', 'BuyukbasController@index')->name('buyukbas.reload');
         Route::post('/edit', [BuyukbasController::class, 'edit']);
         Route::post('/store', [BuyukbasController::class, 'store']);
+        Route::post('/kesilmedrm', [BuyukbasController::class, 'kesilmedrm']);
+        Route::post('/videodrm', [BuyukbasController::class, 'videodrm']);
+        Route::post('/aramadrm', [BuyukbasController::class, 'aramadrm']);
+        Route::post('/vekaletdrm', [BuyukbasController::class, 'vekaletdrm']);
 
         //PAGE
         //Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');

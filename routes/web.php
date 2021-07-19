@@ -39,6 +39,7 @@ Route::namespace('Kurban')->group(function () {
         Route::post('/videodrm', [BuyukbasController::class, 'videodrm']);
         Route::post('/aramadrm', [BuyukbasController::class, 'aramadrm']);
         Route::post('/vekaletdrm', [BuyukbasController::class, 'vekaletdrm']);
+        Route::post('/info', [BuyukbasController::class, 'info']);
 
         //PAGE
         //Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');
@@ -46,13 +47,24 @@ Route::namespace('Kurban')->group(function () {
     });
     Route::prefix('kucukbas')->group(function () {
         //BLOG
-        // Route::post('/buyukbas/sortable', 'BlogController@sortable')->name('blog.Sortable');
-        Route::get('/', 'KucukbasController@index')->name('kucukbas');
-        Route::get('/tamamlanan', 'KucukbasController@kesilmis')->name('kucukbas.kesilmis');
+        // Route::post('/Kucukbas/sortable', 'BlogController@sortable')->name('blog.Sortable');
+        Route::get('/', 'KucukbasController@index')->name('kucukbas.index');
+        Route::get('/tamamlanan', 'KucukbasController@tamamlanan')->name('kucukbas.tamamlanan');
+        Route::get('/video', 'KucukbasController@video')->name('kucukbas.video');
+        Route::get('/arama', 'KucukbasController@arama')->name('kucukbas.arama');
         Route::get('/kesilmemis', 'KucukbasController@kesilmemis')->name('kucukbas.kesilmemis');
         Route::get('/rapor', 'KucukbasController@rapor')->name('kucukbas.rapor');
         Route::get('/detail/{id}', 'KucukbasController@detail')->name('kucukbas.detail');
-        Route::resource('kucukbas', 'KucukbasController');
+
+        Route::post('/update', 'KucukbasController@update')->name('kucukbas.update');
+        Route::post('/', 'KucukbasController@index')->name('kucukbas.reload');
+        Route::post('/edit', [KucukbasController::class, 'edit']);
+        Route::post('/store', [KucukbasController::class, 'store']);
+        Route::post('/kesilmedrm', [KucukbasController::class, 'kesilmedrm']);
+        Route::post('/videodrm', [KucukbasController::class, 'videodrm']);
+        Route::post('/aramadrm', [KucukbasController::class, 'aramadrm']);
+        Route::post('/vekaletdrm', [KucukbasController::class, 'vekaletdrm']);
+        Route::post('/info', [KucukbasController::class, 'info']);
 
         //PAGE
         //Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');

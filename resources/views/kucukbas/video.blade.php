@@ -23,6 +23,45 @@
 
 
     <style>
+        .my-input-class {
+            padding: 3px 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .my-confirm-class {
+            padding: 3px 6px;
+            font-size: 12px;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            border-radius: 4px;
+            background-color: #337ab7;
+            text-decoration: none;
+        }
+
+        .my-cancel-class {
+            padding: 3px 6px;
+            font-size: 12px;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            border-radius: 4px;
+            background-color: #a94442;
+            text-decoration: none;
+        }
+
+        .error {
+            border: solid 1px;
+            border-color: #a94442;
+        }
+
+        .destroy-button {
+            padding: 5px 10px 5px 10px;
+            border: 1px blue solid;
+            background-color: lightgray;
+        }
+
         .transparent-input {
             background-color: rgba(0, 0, 0, 0) !important;
             border: none !important;
@@ -111,10 +150,23 @@
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">DataTable with default features</h3>
+
+                                    <h3 class="card-title float-left"> DataTable with default features </h3>
+
+                                    <div class="btn-group float-right">
+
+                                        <a class="btn btn-info  " onClick="refreshTable()" href="#" role="button">
+                                            <i class="fas fa-sync"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-info " data-card-widget="maximize"><i
+                                                class="fas fa-expand"></i>
+                                        </a>
+
+                                    </div>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body ">
+
                                     <table id="example1" class="w-100 table table-bordered table-striped">
 
                                         <thead>
@@ -128,9 +180,8 @@
                                                 <th><span id='search'>REFERANS</span><br>REFERANS</th>
                                                 <th><span id='search'>GELECEKVEKALET</span><br>GELECEKVEKALET</th>
 
-                                                <th>ARAMA</th>
-                                                <th>VİDEO</th>
-                                                <th>KESİLME DURUMU </th>
+                                                <th><span id='search'>VIDEO</span><br>VİDEO</th>
+
 
                                             </tr>
 
@@ -155,7 +206,6 @@
         </div>
         <!--/. container-fluid -->
     </section>
-    <!-- /.content -->
 
 
 
@@ -170,6 +220,9 @@ setTimeout(() => wpwin.close(), 3000);
 }
 </script>
     <script>
+        function refreshTable() {
+            $('#example1').DataTable().draw();
+        }
         $(document).ready(function() {
 
             $.ajaxSetup({
@@ -213,21 +266,21 @@ setTimeout(() => wpwin.close(), 3000);
             $(document).ready(function() { // Setup - add a text input to each footer cell
 
                 tablem = $('#example1').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    responsive: false,
-                    lengthChange: true,
+                    "processing": true,
+                    "serverSide": true,
+                    "responsive": false,
+                    "lengthChange": true,
 
 
-                    autoWidth: true,
-                    pageLength: 10,
+                    "autoWidth": true,
+                    "pageLength": 7,
 
 
-                    scrollX: true,
-                    buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                    ajax: "{{ url('kucukbas') }}",
+                    "scrollX": true,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                    "ajax": "{{ url('kucukbas/video') }}",
 
-                    columns: [{
+                    "columns": [{
                             data: 'id',
                             name: 'id',
 
@@ -262,17 +315,10 @@ setTimeout(() => wpwin.close(), 3000);
                             data: 'vekalet_durum',
                             name: 'vekalet_durum'
                         },
-                        {
-                            data: 'arama_islem',
-                            name: 'arama_islem'
-                        },
+
                         {
                             data: 'video_islem',
                             name: 'video_islem'
-                        },
-                        {
-                            data: 'kesilme_durum',
-                            name:'kesilme_durum'
                         },
 
 
@@ -303,10 +349,10 @@ setTimeout(() => wpwin.close(), 3000);
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 tablem = $('#example1').DataTable();
 
-               /*  tablem.MakeCellsEditable({
+                tablem.MakeCellsEditable({
                     "onUpdate": myCallbackFunction,
                     "inputCss": 'transparent-input',
-                    "columns": [3, 8, 9],
+                    "columns": [3, 8],
                     "allowNulls": {
                         "columns": [3],
                         "errorClass": 'error'
@@ -317,58 +363,58 @@ setTimeout(() => wpwin.close(), 3000);
                             "type": "text",
                             "options": null
                         },
+                        /* {
+                            "column": 8,
+                            "type": "list",
+                            "options": [{
+
+                                    "value": 'SEÇİNİZ',
+                                    "display": "SEÇİNİZ"
+                                }, {
+
+                                    "value": "ARANMADI",
+                                    "display": "ARANMADI"
+                                },
+                                {
+                                    "value": "ARANDI",
+                                    "display": "ARANDI"
+                                },
+                                {
+                                    "value": "ULAŞILAMADI",
+                                    "display": "ULAŞILAMADI"
+                                },
+                                {
+                                    "value": "NUMARA YANLIŞ",
+                                    "display": "NUMARA YANLIŞ"
+                                },
+                                {
+                                    "value": "REFERANS ARANDI",
+                                    "display": "REFERANS ARANDI"
+                                }
+                            ]
+                        }, */
                         {
                             "column": 8,
                             "type": "list",
                             "options": [{
 
-                                    "value": 'arama_islem',
+                                    "value": 'SEÇİNİZ',
                                     "display": "SEÇİNİZ"
                                 }, {
 
-                                    "value": "0",
-                                    "display": "ARANMADI"
-                                },
-                                {
-                                    "value": "10",
-                                    "display": "ARANDI"
-                                },
-                                {
-                                    "value": "11",
-                                    "display": "ULAŞILAMADI"
-                                },
-                                {
-                                    "value": "12",
-                                    "display": "NUMARA YANLIŞ"
-                                },
-                                {
-                                    "value": "13",
-                                    "display": "REFERANS ARANDI"
-                                }
-                            ]
-                        },
-                        {
-                            "column": 9,
-                            "type": "list",
-                            "options": [{
-
-                                    "value": 'arama_islem',
-                                    "display": "SEÇİNİZ"
-                                }, {
-
-                                    "value": "0",
+                                    "value": "GÖNDERİLMEDİ",
                                     "display": "GÖNDERİLMEDİ"
                                 },
                                 {
-                                    "value": "10",
+                                    "value": "KENDİSİNE GÖNDERİLDİ",
                                     "display": "KENDİSİNE GÖNDERİLDİ"
                                 },
                                 {
-                                    "value": "11",
+                                    "value": "REFERANSA GÖNDERİLDİ1",
                                     "display": "REFERANSA GÖNDERİLDİ"
                                 },
                                 {
-                                    "value": "2",
+                                    "value": "WHATSAPP YOK",
                                     "display": "WHATSAPP YOK"
                                 }
                             ]
@@ -377,20 +423,18 @@ setTimeout(() => wpwin.close(), 3000);
                         // Nothing specified for column 3 so it will default to text
 
                     ]
-                }); */
+                });
 
             });
 
-            /* function myCallbackFunction(updatedCell, updatedRow, oldValue) {
+
+            function myCallbackFunction(updatedCell, updatedRow, oldValue) {
 
                 var formData = {
                     id: updatedRow.data()['id'],
-                    kesilme_no: updatedRow.data()['kesilme_no'],
-                    kesilme_durum: 0,
-                    vekalet_durum: updatedRow.data()['vekalet_durum'],
-                    arama_islem: updatedRow.data()['arama_islem'],
+
                     video_islem: updatedRow.data()['video_islem'],
-                    islem_log: 'muratcelebi'
+
                 }
                 $.ajaxSetup({
                     headers: {
@@ -399,7 +443,7 @@ setTimeout(() => wpwin.close(), 3000);
                 });
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('kucukbas/store') }}",
+                    url: "{{ url('kucukbas/videodrm') }}",
                     data: formData,
 
                     success: (data) => {
@@ -416,7 +460,8 @@ setTimeout(() => wpwin.close(), 3000);
                             ' İşlem başarısız');
                     }
                 });
-            } */
+                $('#example1').DataTable().draw();
+            }
             $('#example1 thead tr #search').each(function() {
                 var title = $(this).text();
                 $(this).html('<input type="text" class = "w-100" placeholder = "ARA -' + title +
@@ -424,4 +469,5 @@ setTimeout(() => wpwin.close(), 3000);
             });
 
         });
-    </script>@endsection
+
+</script>@endsection

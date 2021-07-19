@@ -92,7 +92,7 @@
                 </a>
 
 
-                <ul class="nav nav-treeview">
+                 <ul class="nav nav-treeview">
 
 
                     <li class="nav-item">
@@ -102,19 +102,31 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{-- route('kucukbas.kesilmis') --}}" class="nav-link">
-                            <i class="nav-icon fas fa-check text-teal"></i>
-                            <p>Kesilen</p>
+                        <a href="{{route('kucukbas.video') }}" class="nav-link">
+                            <i class="nav-icon fas fa-video text-purple"></i>
+                            <p>Video</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{-- route('kucukbas.kesilmemis') --}}" class="nav-link">
+                        <a href="{{ route('kucukbas.arama') }}" class="nav-link">
+                            <i class="nav-icon fas fa-phone text-gray"></i>
+                            <p>Arama</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('kucukbas.tamamlanan') }}" class="nav-link">
+                            <i class="nav-icon fas fa-check text-teal"></i>
+                            <p>Tamamlanan</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('kucukbas.kesilmemis') }}" class="nav-link">
                             <i class="nav-icon fas fa-times text-danger"></i>
                             <p>Kesilmeyen</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('kucukbas.rapor') }}" class="nav-link">
                             <i class="nav-icon far fa-flag text-warning"></i>
                             <p>Rapor</p>
                         </a>

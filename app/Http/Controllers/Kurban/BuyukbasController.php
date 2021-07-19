@@ -33,17 +33,31 @@ class BuyukbasController extends Controller
                     $result = Helpers::vekaletdurumr($model->vekalet_durum);
                     return $result;
                 })
-                ->addColumn('referans', function ($model) {
 
-                    //$model->refferans;
-                    $result = DB::table('referans')->where('id', $model->referans)->first();
-                    return $result->adi_soyadi;
-                })
                 ->addColumn('kesilme_durum', function ($model) {
 
                     $result = Helpers::kesilmedurumr($model->kesilme_durum);
                     return $result;
                 })
+                ->addColumn('referans', function ($model) {
+
+                    //$model->refferans;
+                    $result = DB::table('referans')->where('id', $model->referans)->first();
+                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $model->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+                    return $btn;
+                })
+
+                /*
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                }) */
                 ->addColumn('tel_no', function ($row) {
                     $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
                     $btn = $row->tel_no;
@@ -53,7 +67,7 @@ class BuyukbasController extends Controller
 
                     return $btn;
                 })
-                ->rawColumns(['tel_no'])
+                ->rawColumns(['tel_no', 'referans'])
                 ->addIndexColumn()
 
 
@@ -69,7 +83,9 @@ class BuyukbasController extends Controller
     public function tamamlanan()
     {
         //
-        $model = Buyukbas::where('arama_islem', 'ARANDI')->where('video_islem', 'GÖNDERİLDİ');
+        $model = Buyukbas::having('kesilme_durum', '1')
+            ->whereIn('video_islem', ['KENDİSİNE GÖNDERİLDİ', 'REFERANSA GÖNDERİLDİ', 'WHATSAPP YOK'])
+            ->whereIn('arama_islem', ['REFERANS ARANDI', 'ARANDI']);
         if (request()->ajax()) {
 
 
@@ -91,8 +107,31 @@ class BuyukbasController extends Controller
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
-                    return $result->adi_soyadi;
+                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $model->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+                    return $btn;
                 })
+
+                /*
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                }) */
+                ->addColumn('tel_no', function ($row) {
+                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $row->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+
+                    return $btn;
+                })
+                ->rawColumns(['tel_no', 'referans'])
                 /*
                 ->editColumn('video_islem', function ($model) {
 
@@ -140,8 +179,14 @@ class BuyukbasController extends Controller
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
-                    return $result->adi_soyadi;
+                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $model->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+                    return $btn;
                 })
+
                 /*
                 ->editColumn('video_islem', function ($model) {
 
@@ -158,7 +203,7 @@ class BuyukbasController extends Controller
 
                     return $btn;
                 })
-                ->rawColumns(['tel_no'])
+                ->rawColumns(['tel_no', 'referans'])
                 ->addIndexColumn()
 
 
@@ -172,15 +217,12 @@ class BuyukbasController extends Controller
     public function arama()
     {
         //
-        $model = Buyukbas::where('vekalet_durum', '1')
-            ->where('kesilme_durum', '1')
-            ->where('video_islem', 'KENDİSİNE GÖNDERİLDİ')
-            ->orwhere('video_islem', 'REFERANSA GÖNDERİLDİ')
-            ->orwhere('video_islem', 'WHATSAPP YOK')
-            ->where('arama_islem', 'ULAŞILAMADI')
-            ->orwhere('arama_islem', 'SEÇİNİZ')
-            ->orwhere('arama_islem', 'NUMARA YANLIŞ')
-            ->orwhere('arama_islem', 'ARANMADI');
+
+        $model = Buyukbas::having('vekalet_durum', '1')
+            ->having('kesilme_durum', '1')
+            ->whereIn('video_islem', ['KENDİSİNE GÖNDERİLDİ', 'REFERANSA GÖNDERİLDİ', 'WHATSAPP YOK'])
+
+            ->whereNotIn('arama_islem', ['REFERANS ARANDI', 'ARANDI']);
 
         if (request()->ajax()) {
 
@@ -200,6 +242,25 @@ class BuyukbasController extends Controller
                     return $result;
                 })
 
+                ->addColumn('referans', function ($model) {
+
+                    //$model->refferans;
+                    $result = DB::table('referans')->where('id', $model->referans)->first();
+                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $model->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+                    return $btn;
+                })
+
+                /*
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                }) */
                 ->addColumn('tel_no', function ($row) {
                     $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
                     $btn = $row->tel_no;
@@ -209,18 +270,8 @@ class BuyukbasController extends Controller
 
                     return $btn;
                 })
-                ->rawColumns(['tel_no'])
+                ->rawColumns(['tel_no', 'referans'])
 
-                ->addColumn('referans', function ($row) {
-                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
-                    $btn = $row->tel_no;
-                    $btn =
-                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-primary btn-sm">wp</button>' . '  ' . $row->adi_soyadi . '  ' . '<a href="tel:+' . $row->tel_no . '" class="edit btn btn-primary btn-sm">Edit</a>';
-
-
-                    return $btn;
-                })
-                ->rawColumns(['referans'])
                 /*
                 ->editColumn('video_islem', function ($model) {
 
@@ -237,6 +288,24 @@ class BuyukbasController extends Controller
                 ->make(true);
         }
         return view('buyukbas.arama');
+    }
+    /**
+     * Show the form for creating a new resource.
+     *@return \Illuminate\Http\Response
+     *
+     */
+    public function info()
+    {
+        $kesilen = Buyukbas::where('kesilme_durum', '1')->get();
+        $hepsi = Buyukbas::select('*')->get();
+        $yuzde = count($kesilen) * 100 / count($hepsi);
+        $data = [$yuzde, count($kesilen)];
+        return response()->json(
+            $data
+            // Create HasMany relation named "comments", see Eloquent Relationships
+        );
+
+        return view('buyukbas.info');
     }
     /**
      * Show the form for creating a new resource.
@@ -283,13 +352,30 @@ class BuyukbasController extends Controller
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
                     $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
-                    $btn = $result->adi_soyadi;
+                    $btn = $model->tel_no;
                     $btn =
-                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-primary btn-sm"><i class="nav-icon fas fa-whatsapp text-gray"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="nav-icon fas fa-phone text-gray"></i></a>';
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
 
-
-                    return $result->adi_soyadi;
+                    return $btn;
                 })
+
+                /*
+                ->editColumn('video_islem', function ($model) {
+
+                    $result = Helpers::videoislemr($model->video_islem);
+
+                    return $result;
+                }) */
+                ->addColumn('tel_no', function ($row) {
+                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $btn = $row->tel_no;
+                    $btn =
+                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+
+
+                    return $btn;
+                })
+                ->rawColumns(['tel_no', 'referans'])
 
                 /*
                 ->editColumn('video_islem', function ($model) {
@@ -384,9 +470,6 @@ class BuyukbasController extends Controller
     {
         //
 
-        $video_islem = Helpers::videoislem($_POST['video_islem']);
-        $arama_islem = Helpers::aramaislem($_POST['arama_islem']);
-        $vekalet_durum = Helpers::vekaletdurum($_POST['vekalet_durum']);
         $company   =   Buyukbas::updateOrCreate(
             [
                 'id' => $_POST['id']
@@ -395,7 +478,7 @@ class BuyukbasController extends Controller
 
 
                 'arama_islem' => $_POST['arama_islem'],
-
+                'video_islem' => $_POST['video_islem'],
                 //'islem_log' => $_POST['islem_log'],
 
             ]
@@ -420,21 +503,42 @@ class BuyukbasController extends Controller
             $drm = '1';
         }
         $vekalet_durum = Helpers::vekaletdurum($_POST['vekalet_durum']);
-        $company   =   Buyukbas::updateOrCreate(
-            [
-                'id' => $_POST['id']
-            ],
-            [
-                'kesilme_no' => $_POST['kesilme_no'],
+        if ($vekalet_durum == 0 && $drm == 1) {
+            $company   =   Buyukbas::updateOrCreate(
+                [
+                    'id' => $_POST['id']
+                ],
+                [
+                    'kesilme_no' => $_POST['kesilme_no'],
 
-                'kesilme_durum' => $drm,
+                    'kesilme_durum' => $drm,
 
-                'vekalet_durum' => $vekalet_durum,
+                    'vekalet_durum' => $vekalet_durum,
+                    'arama_islem' => 'ARANDI',
+                    'video_islem' => 'KENDİSİNE GÖNDERİLDİ',
 
-                //'islem_log' => $_POST['islem_log'],
+                    //'islem_log' => $_POST['islem_log'],
 
-            ]
-        );
+                ]
+            );
+        } else {
+            $company   =   Buyukbas::updateOrCreate(
+                [
+                    'id' => $_POST['id']
+                ],
+                [
+                    'kesilme_no' => $_POST['kesilme_no'],
+
+                    'kesilme_durum' => $drm,
+
+                    'vekalet_durum' => $vekalet_durum,
+
+                    //'islem_log' => $_POST['islem_log'],
+
+                ]
+            );
+        }
+
 
         return Response()->json($company);
     }

@@ -223,7 +223,7 @@
 function new_popup(tel,msg){
     wpwin= window.open(
                  "https://api.whatsapp.com/send?phone="+tel+"&text="+msg, "_blank", "width=500, height=350");
-setTimeout(() => wpwin.close(), 3000);
+setTimeout(() => wpwin.close(), 2000);
 }
 </script>
 

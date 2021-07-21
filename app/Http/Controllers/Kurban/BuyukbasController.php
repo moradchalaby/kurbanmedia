@@ -46,7 +46,7 @@ class BuyukbasController extends Controller
         //
         $model = Buyukbas::having('vekalet_durum', '1')
             ->having('kesilme_durum', '1')
-            ->whereIn('video_islem', ['SEÇİNİZ', 'GÖNDERİLMEDİ', 'WHATSAPP YOK']);
+            ->whereIn('video_islem', ['SEÇİNİZ', 'GÖNDERİLMEDİ', 'WHATSAPP YOK'])->orderBy('kesilme_no', 'desc')->orderBy('video_islem', 'asc');
         if (request()->ajax()) {
 
 
@@ -114,7 +114,7 @@ class BuyukbasController extends Controller
             ->having('kesilme_durum', '1')
             ->whereIn('video_islem', ['KENDİSİNE GÖNDERİLDİ', 'REFERANSA GÖNDERİLDİ', 'WHATSAPP YOK'])
 
-            ->whereNotIn('arama_islem', ['REFERANS ARANDI', 'ARANDI']);
+            ->whereNotIn('arama_islem', ['REFERANS ARANDI', 'ARANDI'])->orderBy('kesilme_no', 'desc')->orderBy('arama_islem', 'asc');
 
         if (request()->ajax()) {
 
@@ -195,7 +195,7 @@ class BuyukbasController extends Controller
         $cekaranan
             = Buyukbas::having('kesilme_durum', '1')->having('vekalet_durum', '1')->whereIn('arama_islem', ['REFERANS ARANDI', 'ARANDI'])->get();
         $cekkalan
-            = Buyukbas::having('vekalet_durum', '1')->having('kesilme_durum', '0')->get();
+            = Buyukbas::having('kesilme_durum', '0')->get();
         $cekgonderilen
             = Buyukbas::having('kesilme_durum', '1')->having('vekalet_durum', '1')->whereIn('video_islem', ['KENDİSİNE GÖNDERİLDİ', 'REFERANSA GÖNDERİLDİ'])->get();
         $hepsi = Buyukbas::select('*')->get();
@@ -232,7 +232,7 @@ class BuyukbasController extends Controller
     {
         $data['referans'] =
             Referans::where('id', $id)->first();
-        $data['buyukbas'] = Buyukbas::all()->sortBy('sira_no')->where('referans', $id);
+        $data['buyukbas'] = Buyukbas::having('kesilme_durum', '1')->having('vekalet_durum', '1')->having('referans', $id)->get();
         return view('buyukbas.detail', compact('data'));
     }
     public function kesilmemis()

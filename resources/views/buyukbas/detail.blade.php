@@ -53,8 +53,10 @@
                                                 <th><span id='search'>KESİM NO</span><br>KESİM NO</th>
                                                 <th><span id='search'>ADI SOYADI</span><br>ADI SOYADI</th>
                                                 <th><span id='search'>CEP TELEFONU</span><br>CEP TELEFONU</th>
-                                                <th><span id='search'>REFERANS</span><br>REFERANS</th>
+
                                                 <th><span id='search'>GELECEKVEKALET</span><br>GELECEKVEKALET</th>
+                                                <th><span id='search'>ARAMA</span><br>ARAMA</th>
+                                                <th><span id='search'>VİDEO</span><br>VİDEO</th>
                                             </tr>
 
                                         </thead>
@@ -69,8 +71,10 @@
                                                     <td>{{ $bbas['kesim_no'] }}</td>
                                                     <td>{{ $bbas['adi_soyadi'] }}</td>
                                                     <td>{{ $bbas['tel_no'] }}</td>
-                                                    <td>{{ $bbas['referans'] }}</td>
+
                                                     <td>@php  echo $bbas['vekalet_durum']==0?'Gelecek':'Vekalet'  @endphp</td>
+                                                    <td>{{ $bbas['arama_islem'] }}</td>
+                                                    <td>{{ $bbas['video_islem'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

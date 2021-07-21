@@ -150,7 +150,7 @@
 function new_popup(tel,msg){
     wpwin= window.open(
                  "https://api.whatsapp.com/send?phone="+tel+"&text="+msg, "_blank", "width=500, height=350");
-setTimeout(() => wpwin.close(), 3000);
+setTimeout(() => wpwin.close(), 1500);
 }
 </script>
     <script>
@@ -355,7 +355,7 @@ setTimeout(() => wpwin.close(), 3000);
                                     "display": "KENDİSİNE GÖNDERİLDİ"
                                 },
                                 {
-                                    "value": "REFERANSA GÖNDERİLDİ1",
+                                    "value": "REFERANSA GÖNDERİLDİ",
                                     "display": "REFERANSA GÖNDERİLDİ"
                                 },
                                 {

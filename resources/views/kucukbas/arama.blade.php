@@ -147,6 +147,7 @@
 @endsection
 @section('css')@endsection
 @section('js')
+
     <script>
         function refreshTable() {
             $('#example1').DataTable().draw();

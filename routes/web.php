@@ -58,13 +58,13 @@ Route::namespace('Kurban')->group(function () {
 
         Route::post('/update', 'KucukbasController@update')->name('kucukbas.update');
         Route::post('/', 'KucukbasController@index')->name('kucukbas.reload');
-        Route::post('/edit', [KucukbasController::class, 'edit']);
-        Route::post('/store', [KucukbasController::class, 'store']);
-        Route::post('/kesilmedrm', [KucukbasController::class, 'kesilmedrm']);
-        Route::post('/videodrm', [KucukbasController::class, 'videodrm']);
-        Route::post('/aramadrm', [KucukbasController::class, 'aramadrm']);
-        Route::post('/vekaletdrm', [KucukbasController::class, 'vekaletdrm']);
-        Route::post('/info', [KucukbasController::class, 'info']);
+        Route::post('/edit', 'KucukbasController@edit');
+        Route::post('/store', 'KucukbasController@store');
+        Route::post('/kesilmedrm', 'KucukbasController@kesilmedrm');
+        Route::post('/videodrm', 'KucukbasController@videodrm');
+        Route::post('/aramadrm', 'KucukbasController@aramadrm');
+        Route::post('/vekaletdrm', 'KucukbasController@vekaletdrm');
+        Route::post('/info', 'KucukbasController@info');
 
         //PAGE
         //Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');

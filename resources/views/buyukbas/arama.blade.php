@@ -391,6 +391,17 @@
                             ' İşlem başarısız');
                     }
                 });
+                 $.ajax({
+            method: 'POST',
+            url: "{{ url('buyukbas/info') }}",
+            success: function(response) {
+             document.getElementById("kesilen").innerHTML =response['kesilen'].toFixed(2)+'%';
+               document.getElementById("aranan").innerHTML=response['aranan'];
+               document.getElementById("gonderilen").innerHTML =response['gonderilen'];
+               document.getElementById("kalan").innerHTML =response['kalan'];
+
+            }
+        });
                 $('#example1').DataTable().draw();
             }
             $('#example1 thead tr #search').each(function() {

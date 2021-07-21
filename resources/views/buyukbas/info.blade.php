@@ -3,33 +3,21 @@
 
      var intervalMiliseconds = 5000;
    var pool = function () {
-         $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-        $.ajax({
-            method: 'POST',
-            url: "{{ url('buyukbas/info') }}",
-            success: function(response) {
-                document.getElementById("kesilen").innerHTML =response;
-                console.log(response);
-            }
-        });
-    };
+
 
     setInterval(pool, intervalMiliseconds);
+
 
 </script>
     <!-- Info boxes -->
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box">
-                        <span class="info-box-icon bg-info elevation-1"> <span class="iconify" data-icon="mdi:sheep"
+                        <span class="info-box-icon bg-info elevation-1"> <span class="iconify" data-icon="mdi:cow"
                                 data-inline="false"></span></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">CPU Traffic</span>
+                            <span class="info-box-text">KESİLEN</span>
                             <span class="info-box-number" id="kesilen">
 
                                 <small>%</small>
@@ -46,8 +34,8 @@
                                 data-inline="false"></span></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Likes</span>
-                            <span class="info-box-number">41,410</span>
+                            <span class="info-box-text">KALAN</span>
+                            <span id="kalan" class="info-box-number"></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -64,8 +52,8 @@
                                 data-icon="akar-icons:phone" data-inline="false"></span></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Sales</span>
-                            <span class="info-box-number">760</span>
+                            <span class="info-box-text">ARANAN</span>
+                            <span id="aranan" class="info-box-number"></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -78,8 +66,8 @@
                                 data-icon="ri:video-chat-fill" data-inline="false"></span></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">New Members</span>
-                            <span class="info-box-number">2,000</span>
+                            <span class="info-box-text">VİDEO</span>
+                            <span id="gonderilen" class="info-box-number"></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -87,6 +75,5 @@
                 </div>
                 <!-- /.col -->
             </div>
-            <!-- /.row -->
 
 

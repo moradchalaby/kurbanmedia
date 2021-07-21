@@ -1,7 +1,7 @@
 
 <script>
 
-     var intervalMiliseconds = 5000;
+     var intervalMiliseconds = 2000;
    var pool = function () {
          $.ajaxSetup({
                     headers: {
@@ -12,7 +12,7 @@
             method: 'POST',
             url: "{{ url('kucukbas/info') }}",
             success: function(response) {
-                document.getElementById("kesilen").innerHTML =response;
+                document.getElementById("kesilen").innerHTML =response.tofixed(2)+'%';
                 console.log(response);
             }
         });

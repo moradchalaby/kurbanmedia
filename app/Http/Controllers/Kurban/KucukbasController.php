@@ -43,10 +43,11 @@ class KucukbasController extends Controller
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
-                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Referansı olduğunuz *' . $model->id . '* makbuz numaralı kurbanınız *' . $model->adi_soyadi . '* niyetiyle *' . $model->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
                     $btn = $model->tel_no;
+                    $url = urlencode($msg);
                     $btn =
-                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . $url . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
 
                     return $btn;
                 })
@@ -59,7 +60,8 @@ class KucukbasController extends Controller
                     return $result;
                 }) */
                 ->addColumn('tel_no', function ($row) {
-                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Vekaletini vermiş olduğunuz *' . $row->id . '* makbuz numaralı kurbanınız *' . $row->adi_soyadi . '* niyetiyle *' . $row->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
+
                     $btn = $row->tel_no;
                     $btn =
                         '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
@@ -68,6 +70,7 @@ class KucukbasController extends Controller
                     return $btn;
                 })
                 ->rawColumns(['tel_no', 'referans'])
+
                 ->addIndexColumn()
 
 
@@ -103,35 +106,8 @@ class KucukbasController extends Controller
                     $result = Helpers::vekaletdurumr($model->vekalet_durum);
                     return $result;
                 })
-                ->addColumn('referans', function ($model) {
-
-                    //$model->refferans;
-                    $result = DB::table('referans')->where('id', $model->referans)->first();
-                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
-                    $btn = $model->tel_no;
-                    $btn =
-                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
-
-                    return $btn;
-                })
-
-                /*
-                ->editColumn('video_islem', function ($model) {
-
-                    $result = Helpers::videoislemr($model->video_islem);
-
-                    return $result;
-                }) */
-                ->addColumn('tel_no', function ($row) {
-                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
-                    $btn = $row->tel_no;
-                    $btn =
-                        '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
 
 
-                    return $btn;
-                })
-                ->rawColumns(['tel_no', 'referans'])
                 /*
                 ->editColumn('video_islem', function ($model) {
 
@@ -152,12 +128,9 @@ class KucukbasController extends Controller
     public function video()
     {
         //
-        $model = Kucukbas::where('vekalet_durum', '1')
-            ->where('kesilme_durum', '1')
-
-            ->where('video_islem', 'SEÇİNİZ')
-            ->orwhere('video_islem', 'GÖNDERİLMEDİ')
-            ->orwhere('video_islem', 'WHATSAPP YOK');
+        $model = Kucukbas::having('vekalet_durum', '1')
+            ->having('kesilme_durum', '1')
+            ->whereIn('video_islem', ['SEÇİNİZ', 'GÖNDERİLMEDİ', 'WHATSAPP YOK']);
         if (request()->ajax()) {
 
 
@@ -179,10 +152,11 @@ class KucukbasController extends Controller
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
-                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Referansı olduğunuz *' . $model->id . '* makbuz numaralı kurbanınız *' . $model->adi_soyadi . '* niyetiyle *' . $model->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
                     $btn = $model->tel_no;
+                    $url = urlencode($msg);
                     $btn =
-                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . $url . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
 
                     return $btn;
                 })
@@ -195,7 +169,8 @@ class KucukbasController extends Controller
                     return $result;
                 }) */
                 ->addColumn('tel_no', function ($row) {
-                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Vekaletini vermiş olduğunuz *' . $row->id . '* makbuz numaralı kurbanınız *' . $row->adi_soyadi . '* niyetiyle *' . $row->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
+
                     $btn = $row->tel_no;
                     $btn =
                         '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
@@ -204,6 +179,7 @@ class KucukbasController extends Controller
                     return $btn;
                 })
                 ->rawColumns(['tel_no', 'referans'])
+
                 ->addIndexColumn()
 
 
@@ -246,10 +222,11 @@ class KucukbasController extends Controller
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
-                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Referansı olduğunuz *' . $model->id . '* makbuz numaralı kurbanınız *' . $model->adi_soyadi . '* niyetiyle *' . $model->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
                     $btn = $model->tel_no;
+                    $url = urlencode($msg);
                     $btn =
-                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . $url . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
 
                     return $btn;
                 })
@@ -262,7 +239,8 @@ class KucukbasController extends Controller
                     return $result;
                 }) */
                 ->addColumn('tel_no', function ($row) {
-                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Vekaletini vermiş olduğunuz *' . $row->id . '* makbuz numaralı kurbanınız *' . $row->adi_soyadi . '* niyetiyle *' . $row->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
+
                     $btn = $row->tel_no;
                     $btn =
                         '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
@@ -271,6 +249,7 @@ class KucukbasController extends Controller
                     return $btn;
                 })
                 ->rawColumns(['tel_no', 'referans'])
+
 
                 /*
                 ->editColumn('video_islem', function ($model) {
@@ -351,10 +330,11 @@ class KucukbasController extends Controller
 
                     //$model->refferans;
                     $result = DB::table('referans')->where('id', $model->referans)->first();
-                    $msg = $model->id . ' makbuz numaralı sadaka kurbanınız ' . $model->adi_soyadi . ' niyetiyle ' . $model->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Referansı olduğunuz *' . $model->id . '* makbuz numaralı kurbanınız *' . $model->adi_soyadi . '* niyetiyle *' . $model->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
                     $btn = $model->tel_no;
+                    $url = urlencode($msg);
                     $btn =
-                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
+                        '<button onclick="new_popup(' . $result->tel_no . ',\'' . $url . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $result->adi_soyadi . '  ' . '<a href="tel:+' . $result->tel_no . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';
 
                     return $btn;
                 })
@@ -367,7 +347,8 @@ class KucukbasController extends Controller
                     return $result;
                 }) */
                 ->addColumn('tel_no', function ($row) {
-                    $msg = $row->id . ' makbuz numaralı sadaka kurbanınız ' . $row->adi_soyadi . ' niyetiyle ' . $row->kesilme_no . '. sırada kesilmiştir. Cenâb-ı Hak hayrınızı kabul eylesin. Yaklaşan Kurban bayramınız mübarek olsun. BİRGÖNÜL DERNEĞİ';
+                    $msg = 'Vekaletini vermiş olduğunuz *' . $row->id . '* makbuz numaralı kurbanınız *' . $row->adi_soyadi . '* niyetiyle *' . $row->kesilme_no . '.* sırada kesilmiştir. _Cenâb-ı Hak hayrınızı kabul eylesin. Kurban bayramınız mübarek olsun._  *BİRGÖNÜL DERNEĞİ*';
+
                     $btn = $row->tel_no;
                     $btn =
                         '<button onclick="new_popup(' . $row->tel_no . ',\'' . urlencode($msg) . '\')" class="edit btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></button>' . '  ' . $btn . '  ' . '<a href="tel:+' . $btn . '" class="edit btn btn-primary btn-sm"><i class="fas fa-phone"></i></a>';

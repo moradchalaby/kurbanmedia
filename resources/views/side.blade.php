@@ -54,7 +54,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('buyukbas.video') }}" class="nav-link">
+                        <a href="{{ route('buyukbas.video') }}" class="nav-link">
                             <i class="nav-icon fas fa-video text-purple"></i>
                             <p>Video</p>
                         </a>
@@ -92,7 +92,7 @@
                 </a>
 
 
-                 <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview">
 
 
                     <li class="nav-item">
@@ -102,7 +102,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('kucukbas.video') }}" class="nav-link">
+                        <a href="{{ route('kucukbas.video') }}" class="nav-link">
                             <i class="nav-icon fas fa-video text-purple"></i>
                             <p>Video</p>
                         </a>
@@ -132,6 +132,12 @@
                         </a>
                     </li>
                 </ul>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('kamera.buyukbas') }}" class="nav-link">
+                    <i class="nav-icon far fa-flag text-warning"></i>
+                    <p>Büyükbaş Video Kayıt</p>
+                </a>
             </li>
 
         </ul>

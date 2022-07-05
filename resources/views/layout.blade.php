@@ -47,7 +47,8 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="/" class="nav-link">AnaSayfa</a>
@@ -216,34 +217,35 @@
     <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/resumablejs@1.1.0/resumable.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('dist/js/demo.js') }}"></script>
     <script src="{{ asset('dist/js/dataTables.cellEdit.js') }}"></script>
-<script>
-function new_popup(tel,msg){
-    wpwin= window.open(
-                 "https://api.whatsapp.com/send?phone="+tel+"&text="+msg, "_blank", "width=500, height=350");
-setTimeout(() => wpwin.close(), 2000);
-}
-</script>
+    <script>
+        function new_popup(tel, msg) {
+            wpwin = window.open(
+                "https://api.whatsapp.com/send?phone=" + tel + "&text=" + msg, "_blank", "width=500, height=350");
+            setTimeout(() => wpwin.close(), 2000);
+        }
+    </script>
 
 
     @yield('js')
 
     <script>
-    $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
- $.ajax({
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
             method: 'POST',
             url: "{{ url('buyukbas/info') }}",
             success: function(response) {
-               document.getElementById("kesilen").innerHTML =response['kesilen'].toFixed(2)+'%';
-               document.getElementById("aranan").innerHTML=response['aranan'];
-               document.getElementById("gonderilen").innerHTML =response['gonderilen'];
-               document.getElementById("kalan").innerHTML =response['kalan'];
+                document.getElementById("kesilen").innerHTML = response['kesilen'].toFixed(2) + '%';
+                document.getElementById("aranan").innerHTML = response['aranan'];
+                document.getElementById("gonderilen").innerHTML = response['gonderilen'];
+                document.getElementById("kalan").innerHTML = response['kalan'];
 
             }
         });

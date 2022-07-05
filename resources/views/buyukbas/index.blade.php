@@ -2,7 +2,6 @@
 
 
 @section('content')
-
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -28,7 +27,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Info boxes -->
-          @include('buyukbas/info')
+            @include('buyukbas/info')
 
             <section class="content">
                 <div class="container-fluid">
@@ -72,11 +71,11 @@
                                                     <td>{{ $bbas['kesilme_no'] }}</td>
                                                     <td>{{ $bbas['adi_soyadi'] }}</td>
                                                     <td>{{ $bbas['tel_no'] }}</td>
-@foreach ($data['referans'] as $refo)
-    @if($refo['id']== $bbas['referans'])
-        <td>{{ $refo['adi_soyadi']}}</td>
-    @endif
-@endforeach
+                                                    @foreach ($data['referans'] as $refo)
+                                                        @if ($refo['id'] == $bbas['referans'])
+                                                            <td>{{ $refo['adi_soyadi'] }}</td>
+                                                        @endif
+                                                    @endforeach
 
 
                                                     <td>@php  echo $bbas['vekalet_durum']==0?'Gelecek':'Vekalet'  @endphp</td>
@@ -105,124 +104,124 @@
     </section>
     <!-- /.content -->
 @endsection
-@section('css')@endsection
+@section('css')
+@endsection
 @section('js')
-
-<script>
-
-    function refreshTable() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        var data = {
-            refresh: true,
-
-        }
-        $.ajax({
-            type: "GET",
-            data: data,
-            url: "{{ route('buyukbas.reload') }}",
-            success: function(msg) {
-                // console.log(msg);
-                if (msg) {
-                    toastr.success(' İşlem başarılı');
-                } else {
-                    toastr.error("İşlem başarısız");
+    <script>
+        function refreshTable() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            }
-        });
-         $.ajax({
-            method: 'POST',
-            url: "{{ url('buyukbas/info') }}",
-            success: function(response) {
-               document.getElementById("kesilen").innerHTML =response['kesilen'].toFixed(2)+'%';
-               document.getElementById("aranan").innerHTML=response['aranan'];
-               document.getElementById("gonderilen").innerHTML =response['gonderilen'];
-               document.getElementById("kalan").innerHTML =response['kalan'];
+            });
+
+            var data = {
+                refresh: true,
 
             }
+            $.ajax({
+                type: "GET",
+                data: data,
+                url: "{{ route('buyukbas.reload') }}",
+                success: function(msg) {
+                    // console.log(msg);
+                    if (msg) {
+                        toastr.success(' İşlem başarılı');
+                    } else {
+                        toastr.error("İşlem başarısız");
+                    }
+                }
+            });
+            $.ajax({
+                method: 'POST',
+                url: "{{ url('buyukbas/info') }}",
+                success: function(response) {
+                    document.getElementById("kesilen").innerHTML = response['kesilen'].toFixed(2) + '%';
+                    document.getElementById("aranan").innerHTML = response['aranan'];
+                    document.getElementById("gonderilen").innerHTML = response['gonderilen'];
+                    document.getElementById("kalan").innerHTML = response['kalan'];
+
+                }
+            });
+        }
+
+
+
+
+        /*  $(function() {
+            $(" #example1").DataTable({ "responsive" : true, "lengthChange" : false, "autoWidth" : false, "buttons" :
+        ["copy", "csv" , "excel" , "pdf" , "print" , "colvis" ] }).buttons().container().appendTo('#example1_wrapper
+        .col-md-6:eq(0)'); }); */
+        String.prototype.turkishToLower = function() {
+            var string = this;
+            var letters = {
+                "İ": "i",
+                "I": "ı",
+                "Ş": "ş",
+                "Ğ": "ğ",
+                "Ü": "ü",
+                "Ö": "ö",
+                "Ç": "ç"
+            };
+            string = string.replace(/(([İIŞĞÜÇÖ]))/g, function(letter) {
+                return letters[letter];
+            });
+            return string.toLowerCase();
+        }
+        String.prototype.turkishToUpper = function() {
+            var string = this;
+            var letters = {
+                "i": "İ",
+                "ş": "Ş",
+                "ğ": "Ğ",
+                "ü": "Ü",
+                "ö": "Ö",
+                "ç": "Ç",
+                "ı": "I"
+            };
+            string = string.replace(/(([iışğüçö]))/g, function(letter) {
+                return letters[letter];
+            });
+            return string.toUpperCase();
+        }
+        $(document).ready(function() { // Setup - add a text input to each footer cell
+            $('#example1 thead tr #search').each(function() {
+                var title = $(this).text();
+                $(this).html('<input type="text" class = "w-100" placeholder = "ARA -' + title +
+                    '" / > ');
+            });
+
+
+            var table = $('#example1').DataTable({
+                "responsive": false,
+                "lengthChange": true,
+
+
+                "autoWidth": true,
+                "pageLength": 10,
+
+
+                "scrollX": true,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+
+                initComplete: function() {
+                    // Apply the search
+                    this.api().columns().every(function() {
+                        var that = this;
+
+                        $('input', this.header()).on('keyup change clear',
+                            function() {
+                                if (that.search() !== this.value
+                                    .turkishToUpper()) {
+                                    that
+                                        .search(this.value.turkishToUpper())
+                                        .draw();
+                                }
+                            });
+                    });
+                }
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
         });
-    }
-
-
-
-
-    /*  $(function() {
-        $(" #example1").DataTable({ "responsive" : true, "lengthChange" : false, "autoWidth" : false, "buttons" :
-    ["copy", "csv" , "excel" , "pdf" , "print" , "colvis" ] }).buttons().container().appendTo('#example1_wrapper
-    .col-md-6:eq(0)'); }); */
-    String.prototype.turkishToLower = function() {
-        var string = this;
-        var letters = {
-            "İ": "i",
-            "I": "ı",
-            "Ş": "ş",
-            "Ğ": "ğ",
-            "Ü": "ü",
-            "Ö": "ö",
-            "Ç": "ç"
-        };
-        string = string.replace(/(([İIŞĞÜÇÖ]))/g, function(letter) {
-            return letters[letter];
-        });
-        return string.toLowerCase();
-    }
-    String.prototype.turkishToUpper = function() {
-        var string = this;
-        var letters = {
-            "i": "İ",
-            "ş": "Ş",
-            "ğ": "Ğ",
-            "ü": "Ü",
-            "ö": "Ö",
-            "ç": "Ç",
-            "ı": "I"
-        };
-        string = string.replace(/(([iışğüçö]))/g, function(letter) {
-            return letters[letter];
-        });
-        return string.toUpperCase();
-    }
-    $(document).ready(function() { // Setup - add a text input to each footer cell
-        $('#example1 thead tr #search').each(function() {
-            var title = $(this).text();
-            $(this).html('<input type="text" class = "w-100" placeholder = "ARA -' + title +
-                '" / > ');
-        });
-
-
-        var table = $('#example1').DataTable({
-            "responsive": false,
-            "lengthChange": true,
-
-
-            "autoWidth": true,
-            "pageLength": 10,
-
-
-            "scrollX": true,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-            initComplete: function() {
-                // Apply the search
-                this.api().columns().every(function() {
-                    var that = this;
-
-                    $('input', this.header()).on('keyup change clear',
-                        function() {
-                            if (that.search() !== this.value
-                                .turkishToUpper()) {
-                                that
-                                    .search(this.value.turkishToUpper())
-                                    .draw();
-                            }
-                        });
-                });
-            }
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
-    });
-</script> @endsection
+    </script>
+@endsection

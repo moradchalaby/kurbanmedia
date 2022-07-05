@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 }); */
 use App\Http\Controllers\Kurban\BuyukbasController;
+use App\Http\Controllers\Kurban\KameraController;
 
 Route::namespace('Kurban')->group(function () {
     Route::get('/', 'DefaultController@index')->name('dashboard');
@@ -25,6 +26,7 @@ Route::namespace('Kurban')->group(function () {
         // Route::post('/buyukbas/sortable', 'BlogController@sortable')->name('blog.Sortable');
         Route::get('/', 'BuyukbasController@index')->name('buyukbas.index');
         Route::get('/tamamlanan', 'BuyukbasController@tamamlanan')->name('buyukbas.tamamlanan');
+
         Route::get('/video', 'BuyukbasController@video')->name('buyukbas.video');
         Route::get('/arama', 'BuyukbasController@arama')->name('buyukbas.arama');
         Route::get('/kesilmemis', 'BuyukbasController@kesilmemis')->name('buyukbas.kesilmemis');
@@ -65,6 +67,23 @@ Route::namespace('Kurban')->group(function () {
         Route::post('/aramadrm', 'KucukbasController@aramadrm');
         Route::post('/vekaletdrm', 'KucukbasController@vekaletdrm');
         Route::post('/info', 'KucukbasController@info');
+
+        //PAGE
+        //Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');
+        //Route::resource('page', 'PageController');
+    });
+    Route::prefix('kamera')->group(function () {
+        //BLOG
+        // Route::post('/buyukbas/sortable', 'BlogController@sortable')->name('blog.Sortable');
+
+        Route::get('/buyukbas', [KameraController::class, 'buyukbas'])->name('kamera.buyukbas');
+        Route::post('/buyukbasSave', [KameraController::class, 'buyukbasSave'])->name('kamera.buyukbas.save');
+        Route::post('/store', [BuyukbasController::class, 'store']);
+        Route::post('/kesilmedrm', [BuyukbasController::class, 'kesilmedrm']);
+        Route::post('/videodrm', [BuyukbasController::class, 'videodrm']);
+        Route::post('/aramadrm', [BuyukbasController::class, 'aramadrm']);
+        Route::post('/vekaletdrm', [BuyukbasController::class, 'vekaletdrm']);
+        Route::post('/info', [BuyukbasController::class, 'info']);
 
         //PAGE
         //Route::post('/page/sortable', 'PageController@sortable')->name('page.Sortable');

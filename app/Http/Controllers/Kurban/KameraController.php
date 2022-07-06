@@ -56,19 +56,37 @@ class KameraController extends Controller
      */
     public function buyukbasSave(Request $request)
     {
-        $request->validate([
-            'file' => 'required',
-        ]);
+       request()->validate([
+         'file'  => 'required|mimes:mp4,docx,pdf,txt|max:2000048',
+       ]);
 
-        $name = time() . '.' . request()->file->getClientOriginalExtension();
+        if ($files = $request->file('file')) {
 
-        $request->file->move(public_path('uploads'), $name);
+            //store file into document folder
+            $file = $request->file->storeAs('public/documents','BB-'.$request->tittle.'.mp4');
 
-        $file = new Video;
-        $file->tur = $name;
-        $file->save();
+            //store your file into database
+            $document = new Video();
+            $document->title = 'BB-'.$request->tittle;
+            $document->video = $file;
+            $document->no=$request->tittle;
+            $document->tur='BüyükBaş';
+            $document->save();
 
-        return response()->json(['success' => 'Successfully uploaded.']);
+            return Response()->json([
+                "success" => true,
+                "file" => $file,
+                "result"=>'sıkıştı'
+            ]);
+
+        }
+
+        return Response()->json([
+                "success" => false,
+                "file" => '',
+
+          ]);
+
     }
 
     /**
